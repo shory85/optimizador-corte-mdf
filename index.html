@@ -216,6 +216,7 @@
           <button class="item-btn" id="btnGoListaMateriales" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">📋<br>Lista de Materiales</button>
           <button class="item-btn" id="btnGoConfigBloques" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">🧱<br>Configuración de Bloques</button>
           <button class="item-btn" id="btnGoTiempos" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">⏱️<br>Tiempos</button>
+          <button class="item-btn" id="btnGoCajasEmpaque" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">📦<br>Cajas y Empaque</button>
         </div>
       </div>
 
@@ -223,17 +224,31 @@
         <button class="home-categoria-titulo collapsed" type="button" data-target="cat-planes">📅 Planes de producción <span class="home-categoria-chevron">▾</span></button>
         <div class="home-categoria-body collapsed" id="cat-planes" style="display:flex;gap:16px;flex-wrap:wrap;">
           <button class="item-btn" id="btnGoWork" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">▶️<br>Cargar Órdenes de producción</button>
-          <button class="item-btn" id="btnGoAdminPlanes" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">🗂️<br>Administrar Planes de Producción</button>
+        </div>
+      </div>
+
+      <div class="home-categoria">
+        <button class="home-categoria-titulo collapsed" type="button" data-target="cat-supervisores">🧑‍💼 Supervisores <span class="home-categoria-chevron">▾</span></button>
+        <div class="home-categoria-body collapsed" id="cat-supervisores" style="display:flex;gap:16px;flex-wrap:wrap;">
+          <button class="item-btn" id="btnGoAdminPlanes" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">🗂️<br>Administrar Órdenes de producción</button>
+          <button class="item-btn" id="btnGoTiemposTrabajo" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">⏱️<br>Tiempos de trabajo por ITEM</button>
+          <button class="item-btn" id="btnGoPlanesTrabajoDiario" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">🗓️<br>Planes de trabajo diario para los equipos</button>
+          <button class="item-btn" id="btnGoEntregaItems" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">🚚<br>Entrega de Ítems</button>
         </div>
       </div>
 
       <div class="home-categoria">
         <button class="home-categoria-titulo collapsed" type="button" data-target="cat-operadores">👷 Operadores <span class="home-categoria-chevron">▾</span></button>
         <div class="home-categoria-body collapsed" id="cat-operadores" style="display:flex;gap:16px;flex-wrap:wrap;">
-          <button class="item-btn" id="btnGoConfigMaquina" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">🔧<br>Configuración de Máquina automática</button>
-          <button class="item-btn" id="btnGoTrabajarOrdenes" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">📋<br>Trabajar Órdenes de producción</button>
-          <button class="item-btn" id="btnGoBitacora" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">🕐<br>Bitácora por Día</button>
+          <button class="item-btn" id="btnGoBitacora" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">🕐<br>Trabajar un ITEM en Máquinas</button>
 
+        </div>
+      </div>
+
+      <div class="home-categoria">
+        <button class="home-categoria-titulo collapsed" type="button" data-target="cat-config-maquinas">⚙️ Configuración de máquinas <span class="home-categoria-chevron">▾</span></button>
+        <div class="home-categoria-body collapsed" id="cat-config-maquinas" style="display:flex;gap:16px;flex-wrap:wrap;">
+          <button class="item-btn" id="btnGoConfigMaquina" type="button" style="min-width:260px;padding:34px 28px;font-size:20px;">🔧<br>Configuraciones de máquinas</button>
         </div>
       </div>
     </div>
@@ -249,6 +264,10 @@
           <input type="file" id="importModelsFile" accept="application/json" style="display:none;">
         </div>
         <div class="note" id="editListNote"></div>
+        <div class="field" style="max-width:320px;margin-bottom:16px;">
+          <label>Buscar modelo</label>
+          <input type="text" id="editModelsSearch" placeholder="Escribe para filtrar...">
+        </div>
         <div id="editModelsList" class="item-btn-grid"></div>
       </div>
     </div>
@@ -287,9 +306,15 @@
         <div class="actions" style="margin-bottom:20px;">
           <button class="ghost" id="addOrdenColorRow" type="button">+ Agregar color</button>
         </div>
-        <div class="field" style="max-width:220px;border-top:1px solid var(--line);padding-top:16px;">
-          <label>Fecha de Entrega a Empaque</label>
-          <input type="date" id="fechaEntregaEmpaque">
+        <div style="display:flex;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px;">
+          <div class="field" style="max-width:220px;">
+            <label>Fecha de Entrega a Empaque</label>
+            <input type="date" id="fechaEntregaEmpaque">
+          </div>
+          <div class="field" style="max-width:220px;">
+            <label>OP / OC</label>
+            <input type="text" id="opOcInput" placeholder="Ej. OP-1045">
+          </div>
         </div>
         <div class="actions">
           <button class="primary" id="crearOrdenBtn" type="button">Crear Orden de producción</button>
@@ -475,7 +500,7 @@
       <button class="ghost" id="backFromTiemposEnchapado" type="button" style="margin-bottom:16px;">← Volver</button>
       <div class="panel">
         <h2>Tiempos de Enchapado</h2>
-        <div class="sub" style="margin-bottom:14px;">Por cada rango de medida (cada 100mm, de 50mm a 2440mm), captura cuántas piezas se enchapan por hora a esa medida. Esto reemplaza la captura manual por ITEM — el sistema va a buscar aquí el dato según la medida de cada lado.</div>
+        <div class="sub" style="margin-bottom:14px;">Por cada rango de medida (cada 100mm, de 50mm a 2440mm), captura cuántas piezas se enchapan por minuto a esa medida. Esto reemplaza la captura manual por ITEM — el sistema va a buscar aquí el dato según la medida de cada lado.</div>
         <div class="actions" style="margin-top:0;margin-bottom:16px;">
           <button class="primary" id="tiemposEnchapadoGuardarBtn" type="button">💾 Guardar tabla</button>
         </div>
@@ -484,10 +509,56 @@
       </div>
     </div>
 
+    <div id="cajasEmpaqueModelosView" style="display:none;">
+      <button class="ghost" id="backFromCajasEmpaqueModelos" type="button" style="margin-bottom:16px;">← Volver</button>
+      <div class="panel">
+        <h2>Cajas y Empaque</h2>
+        <div class="sub" style="margin-bottom:14px;">Elige el modelo para ver una propuesta de cómo empacarlo.</div>
+        <div id="cajasEmpaqueModelosList" class="item-btn-grid"></div>
+      </div>
+    </div>
+
+    <div id="cajasEmpaqueProteccionView" style="display:none;">
+      <button class="ghost" id="backFromCajasEmpaqueProteccion" type="button" style="margin-bottom:16px;">← Volver</button>
+      <div class="panel">
+        <div class="field" style="max-width:260px;margin-bottom:20px;">
+          <label>Espacio para la bolsa de tornillos (mm, opcional)</label>
+          <input type="number" id="cajasEmpaqueBolsaInput" min="0" step="1" placeholder="Ej. 20">
+        </div>
+        <h2 id="cajasEmpaqueProteccionTitle">¿Quieres usar unicel, esquineros o nada?</h2>
+        <div class="note" id="cajasEmpaqueProteccionNote" style="color:var(--ok);margin-bottom:10px;"></div>
+        <div class="sub" style="margin-bottom:14px;">Puedes elegir Unicel, Esquineros, ambos, o ninguno (Nada).</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;">
+          <button class="item-btn cajas-proteccion-btn" data-proteccion="unicel" type="button" style="min-width:200px;padding:28px 22px;font-size:18px;">🧊<br>Unicel</button>
+          <button class="item-btn cajas-proteccion-btn" data-proteccion="esquineros" type="button" style="min-width:200px;padding:28px 22px;font-size:18px;">📐<br>Esquineros</button>
+          <button class="item-btn cajas-proteccion-btn" data-proteccion="nada" type="button" style="min-width:200px;padding:28px 22px;font-size:18px;">🚫<br>Nada</button>
+        </div>
+        <div class="sub" style="margin-bottom:10px;">¿Quieres dejar algún espacio extra hacia alguno de los 3 vectores? (opcional, mm)</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;">
+          <div class="field" style="max-width:160px;"><label>Extra en Largo</label><input type="number" id="cajasEmpaqueExtraL" min="0" step="1" placeholder="0"></div>
+          <div class="field" style="max-width:160px;"><label>Extra en Ancho</label><input type="number" id="cajasEmpaqueExtraA" min="0" step="1" placeholder="0"></div>
+          <div class="field" style="max-width:160px;"><label>Extra en Alto</label><input type="number" id="cajasEmpaqueExtraH" min="0" step="1" placeholder="0"></div>
+        </div>
+        <div class="sub" style="margin-bottom:10px;">¿Tienes el SKU de la caja y/o el unicel? (opcional. El de esquineros te lo voy a preguntar más adelante, cuando ya sepamos su tamaño)</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;">
+          <div class="field" style="max-width:200px;"><label>SKU de la caja</label><input type="text" id="cajasEmpaqueSkuCaja" placeholder="Ej. CAJA-40x30"></div>
+          <div class="field" style="max-width:200px;"><label>SKU del unicel</label><input type="text" id="cajasEmpaqueSkuUnicel" placeholder="Ej. UNI-10MM"></div>
+        </div>
+        <div class="actions" style="margin-top:0;">
+          <button class="primary" id="cajasEmpaqueSeguirBtn" type="button">Seguir →</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="cajasEmpaquePropuestaView" style="display:none;">
+      <button class="ghost" id="backFromCajasEmpaquePropuesta" type="button" style="margin-bottom:16px;">← Volver</button>
+      <div class="panel" id="cajasEmpaquePropuestaPanel"></div>
+    </div>
+
     <div id="bitacoraMenuView" style="display:none;">
       <button class="ghost" id="backFromBitacoraMenu" type="button" style="margin-bottom:16px;">← Volver</button>
       <div class="panel">
-        <h2>Bitácora por Día</h2>
+        <h2>Trabajar un ITEM en Máquinas</h2>
         <div class="sub" style="margin-bottom:14px;">Elige el proceso al que le vas a tomar el tiempo.</div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;">
           <button class="item-btn bitacora-proceso-btn" data-proceso="Corte" type="button" style="min-width:220px;padding:30px 24px;font-size:19px;">✂️<br>Corte</button>
@@ -503,9 +574,6 @@
       <button class="ghost" id="backFromBitEnchOrdenes" type="button" style="margin-bottom:16px;">← Volver</button>
       <div class="panel">
         <h2>Enchapado — Órdenes pendientes</h2>
-        <div class="actions" style="margin-top:0;margin-bottom:16px;">
-          <button class="ghost" id="btnVerTablaEnchDesdeOrdenes" type="button">📊 Ver tabla de tiempos</button>
-        </div>
         <div id="bitEnchOrdenesList"></div>
       </div>
     </div>
@@ -548,7 +616,12 @@
         <div id="bitEnchFotoSection" style="display:none;margin-top:16px;">
           <div class="field">
             <label>Sube la foto de la tarima para cerrar este bloque</label>
-            <input type="file" accept="image/*" id="bitEnchFotoInput">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+              <input type="file" accept="image/*" id="bitEnchFotoInput">
+              <label for="bitEnchFotoInputCamara" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;cursor:pointer;border-radius:6px;background:transparent;border:1px solid var(--line);color:var(--text);font-size:14px;">📷 Tomar foto</label>
+              <input type="file" accept="image/*" capture="environment" id="bitEnchFotoInputCamara" style="display:none;">
+            </div>
+            <div class="note" id="bitEnchFotoElegidaNote" style="margin-top:6px;"></div>
           </div>
           <div class="actions" style="margin-top:0;">
             <button class="primary" id="bitEnchConfirmarFotoBtn" type="button" style="background:var(--err);border-color:var(--err);">Confirmar y cerrar (no se puede deshacer)</button>
@@ -562,8 +635,56 @@
     <div id="bitEnchTablaView" style="display:none;">
       <button class="ghost" id="backFromBitEnchTabla" type="button" style="margin-bottom:16px;">← Volver</button>
       <div class="panel">
-        <h2>📊 Tabla de tiempos — Enchapado</h2>
+        <h2>⏱️ Tiempos de trabajo por ITEM</h2>
+        <div class="sub" style="margin-bottom:14px;">Bloques de Enchapado terminados. Filtra por modelo, ITEM y/o fecha.</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
+          <div class="field" style="max-width:220px;">
+            <label>Modelo</label>
+            <select id="tiemposFiltroModelo"><option value="">Todos</option></select>
+          </div>
+          <div class="field" style="max-width:180px;">
+            <label>ITEM</label>
+            <select id="tiemposFiltroItem"><option value="">Todos</option></select>
+          </div>
+          <div class="field" style="max-width:180px;">
+            <label>Fecha</label>
+            <input type="date" id="tiemposFiltroFecha">
+          </div>
+          <button class="ghost" id="tiemposFiltroLimpiarBtn" type="button" style="align-self:end;">Limpiar filtros</button>
+        </div>
         <div id="bitEnchTablaWrap" style="overflow-x:auto;"></div>
+      </div>
+    </div>
+
+    <div id="planesEquiposView" style="display:none;">
+      <button class="ghost" id="backFromPlanesEquipos" type="button" style="margin-bottom:16px;">← Volver</button>
+      <div class="panel">
+        <h2>Planes de trabajo diario para los equipos</h2>
+        <div class="sub" style="margin-bottom:14px;">Elige el equipo para ver y ordenar su cola de trabajo.</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;">
+          <button class="item-btn planes-equipo-btn" data-equipo="Corte" type="button" style="min-width:200px;padding:28px 22px;font-size:18px;">✂️<br>Corte</button>
+          <button class="item-btn planes-equipo-btn" data-equipo="Enchapado" type="button" style="min-width:200px;padding:28px 22px;font-size:18px;">🎨<br>Enchapado</button>
+          <button class="item-btn planes-equipo-btn" data-equipo="Maquinado" type="button" style="min-width:200px;padding:28px 22px;font-size:18px;">🔧<br>Maquinado</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="planesColaView" style="display:none;">
+      <button class="ghost" id="backFromPlanesCola" type="button" style="margin-bottom:16px;">← Volver</button>
+      <div class="panel">
+        <h2 id="planesColaTitle">Cola de trabajo</h2>
+        <div class="sub" style="margin-bottom:14px;">Arrastra y suelta para ordenar por prioridad — hasta arriba es prioridad 1.</div>
+        <div id="planesColaNote" class="note" style="margin-bottom:10px;"></div>
+        <div id="planesColaList"></div>
+      </div>
+    </div>
+
+    <div id="entregaItemsView" style="display:none;">
+      <button class="ghost" id="backFromEntregaItems" type="button" style="margin-bottom:16px;">← Volver</button>
+      <div class="panel">
+        <h2>🚚 Entrega de Ítems</h2>
+        <div class="sub" style="margin-bottom:14px;">ITEMs que ya terminaron todos sus procesos y están listos para entregar.</div>
+        <div id="entregaItemsList"></div>
       </div>
     </div>
   </div>
@@ -576,8 +697,8 @@
 
     <div class="panel">
       <h2>Pegar desde Google Sheets</h2>
-      <div class="sub" style="margin-bottom:10px;">Pega tus columnas en este orden: <b>Descripción, ITEM, Largo (mm), Ancho (mm), Material, Cantidad</b>. Todas son obligatorias. (Enchapado y Maquinado se configuran más adelante, en sus propias pestañas.)</div>
-      <textarea id="pasteBox" rows="5" placeholder="Piso y Entrepaño	A	1100	300	15 MM	2&#10;Cubierta	B	1100	300	15 MM	1" style="width:100%;background:var(--bg-card);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:10px;font-family:'IBM Plex Mono',monospace;font-size:13px;resize:vertical;"></textarea>
+      <div class="sub" style="margin-bottom:10px;">Pega tus columnas en este orden: <b>Descripción, ITEM, Largo (mm), Ancho (mm), Material, Cantidad, ¿Respeta veta?</b>. Todas son obligatorias. El último campo solo acepta "Si" o "No". (Enchapado y Maquinado se configuran más adelante, en sus propias pestañas.)</div>
+      <textarea id="pasteBox" rows="5" placeholder="Piso y Entrepaño	A	1100	300	15 MM	2	Si&#10;Cubierta	B	1100	300	15 MM	1	No" style="width:100%;background:var(--bg-card);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:10px;font-family:'IBM Plex Mono',monospace;font-size:13px;resize:vertical;"></textarea>
       <div class="actions">
         <button class="primary" id="loadPaste" type="button">Cargar piezas</button>
       </div>
@@ -641,6 +762,16 @@
       <h2>Ruta de Proceso</h2>
       <div class="sub" style="margin-bottom:14px;">Por cada ITEM, arma la secuencia de procesos en el orden real que sigue (puede repetirse un proceso más de una vez, ej. Corte → Automático → Enchapado → Automático).</div>
       <div id="rutaProcesoList"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Lados enchapados</h2>
+      <div class="sub" style="margin-bottom:10px;">Pega desde Excel: <b>Nombre del ITEM, Enchapado lado 1 (veta), Enchapado lado 2 (el otro)</b>. Solo se aceptan los valores 0, 1 o 2.</div>
+      <textarea id="enchapLadosPasteBox" rows="4" placeholder="A	2	2&#10;B	1	0" style="width:100%;background:var(--bg-card);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:10px;font-family:'IBM Plex Mono',monospace;font-size:13px;resize:vertical;"></textarea>
+      <div class="actions">
+        <button class="primary" id="enchapLadosLoadBtn" type="button">Aplicar a los ITEMs</button>
+      </div>
+      <div class="note" id="enchapLadosNote"></div>
     </div>
 
     <div class="panel">
@@ -851,7 +982,6 @@ function showTrabajarOrdenesList(){
   document.getElementById('homeTrabajarOrdenesList').style.display = '';
   renderTrabajarOrdenesList();
 }
-document.getElementById('btnGoTrabajarOrdenes').addEventListener('click', showTrabajarOrdenesList);
 document.getElementById('backFromTrabajarOrdenes').addEventListener('click', showHomeChoice);
 
 async function renderTrabajarOrdenesList(){
@@ -869,8 +999,8 @@ async function renderTrabajarOrdenesList(){
       </div>
       <div class="corte-body">
         <table class="corte-table" style="margin-bottom:14px;">
-          <thead><tr><th>Fecha de creación</th><th>Modelo</th><th>Consecutivo</th><th>Cantidad de piezas</th></tr></thead>
-          <tbody><tr><td>${fmtFecha(o.fechaCreacion)}</td><td>${o.modelo}</td><td>#${o.consecutivo}</td><td>${o.cantidadPiezas}</td></tr></tbody>
+          <thead><tr><th>Fecha de creación</th><th>Modelo</th><th>Consecutivo</th><th>OP / OC</th><th>Cantidad de piezas</th></tr></thead>
+          <tbody><tr><td>${fmtFecha(o.fechaCreacion)}</td><td>${o.modelo}</td><td>#${o.consecutivo}</td><td>${o.opOc || '—'}</td><td>${o.cantidadPiezas}</td></tr></tbody>
         </table>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <button class="primary orden-accion-btn" data-consecutivo="${o.consecutivo}" data-accion="Corte" type="button">✂️ Corte</button>
@@ -1044,7 +1174,7 @@ function renderOrdenCorteDetalle(item, orden, siblingItems, recuperacion){
 
 document.getElementById('backFromOrdenCorte').addEventListener('click', () => {
   document.getElementById('ordenCorteView').style.display = 'none';
-  showTrabajarOrdenesList();
+  showAdminPlanes();
 });
 
 // ===== Vista de Enchapado para una Orden de producción =====
@@ -1108,12 +1238,9 @@ function renderOrdenEnchapadoDetalle(item, orden, maquinado, tablaTiempos){
   const {html, note, totalCantos} = buildEnchapadoDiagramHTML(item);
 
   tablaTiempos = tablaTiempos || {};
-  // Piezas/hora según la medida del lado (tabla general de Tiempos → Enchapado),
-  // convertidas a piezas/minuto.
-  const piezasHoraLargo = buscarPiezasPorHora(tablaTiempos, item.L);
-  const piezasHoraCorto = buscarPiezasPorHora(tablaTiempos, item.A);
-  const velLargo = piezasHoraLargo ? piezasHoraLargo / 60 : 0;
-  const velCorto = piezasHoraCorto ? piezasHoraCorto / 60 : 0;
+  // Piezas/minuto según la medida del lado (tabla general de Tiempos → Enchapado).
+  const velLargo = buscarPiezasPorHora(tablaTiempos, item.L) || 0;
+  const velCorto = buscarPiezasPorHora(tablaTiempos, item.A) || 0;
   const tieneVelocidad = (item.enchapl > 0 ? velLargo > 0 : true) && (item.enchapa > 0 ? velCorto > 0 : true);
   // Minutos por pieza: cada lado largo enchapado se divide entre la
   // velocidad del lado largo, cada lado corto entre la del lado corto.
@@ -1159,7 +1286,7 @@ function renderOrdenEnchapadoDetalle(item, orden, maquinado, tablaTiempos){
 
 document.getElementById('backFromOrdenEnchapado').addEventListener('click', () => {
   document.getElementById('ordenEnchapadoView').style.display = 'none';
-  showTrabajarOrdenesList();
+  showAdminPlanes();
 });
 
 // ===== Vista de Maquinado para una Orden de producción =====
@@ -1250,7 +1377,7 @@ function renderOrdenMaquinadoDetalle(item, orden){
 
 document.getElementById('backFromOrdenMaquinado').addEventListener('click', () => {
   document.getElementById('ordenMaquinadoView').style.display = 'none';
-  showTrabajarOrdenesList();
+  showAdminPlanes();
 });
 
 // ===== Lista de Materiales (independiente de las órdenes) =====
@@ -1273,22 +1400,25 @@ async function showLmModelos(){
 document.getElementById('btnGoListaMateriales').addEventListener('click', showLmModelos);
 document.getElementById('backFromLmModelos').addEventListener('click', showHomeChoice);
 
-let lmModeloActual = null, lmItemsActuales = [];
+let lmModeloActual = null, lmItemsActuales = [], lmMaterialesActuales = [];
 
 async function showLmBloqueInput(modelo){
-  let items;
+  let items, maquinado;
   if(USE_SERVER){
     try{
       const data = await apiGetModel(modelo);
       items = data.items;
+      maquinado = data.maquinado || {};
     } catch(e){ alert('No se pudo cargar el modelo desde el servidor.'); return; }
   } else {
     const models = loadModelsFromStorage();
     if(!models[modelo]){ alert('No se encontró el modelo.'); return; }
     items = models[modelo].items;
+    maquinado = models[modelo].maquinado || {};
   }
   lmModeloActual = modelo;
   lmItemsActuales = items;
+  lmMaterialesActuales = Array.isArray(maquinado['__MATERIALES__']) ? maquinado['__MATERIALES__'] : [];
 
   cmaHideAll();
   document.getElementById('lmBloqueView').style.display = '';
@@ -1311,7 +1441,7 @@ document.getElementById('lmCalcularBtn').addEventListener('click', () => {
   }
   cmaHideAll();
   document.getElementById('lmResultadoView').style.display = '';
-  renderListaMateriales(lmItemsActuales, piezasBloque);
+  renderListaMateriales(lmItemsActuales, piezasBloque, lmMaterialesActuales);
 });
 
 document.getElementById('backFromLmResultado').addEventListener('click', () => showLmBloqueInput(lmModeloActual));
@@ -1321,8 +1451,9 @@ document.getElementById('backFromLmResultado').addEventListener('click', () => s
 // el total general a 1 decimal.
 // Chapacinta: se calcula con los ITEMs originales (sin unificar), ya que el
 // enchapado puede ser distinto entre dos ITEMs aunque midan igual.
-function renderListaMateriales(items, piezasBloque){
+function renderListaMateriales(items, piezasBloque, materiales){
   const panel = document.getElementById('lmResultadoPanel');
+  materiales = materiales || [];
 
   const merged = mergeItemsBySize(items);
   let totalHojas = 0, totalSobrantes = 0;
@@ -1347,6 +1478,22 @@ function renderListaMateriales(items, piezasBloque){
     return `<tr><td>ITEM ${it.name}</td><td>${piezasTotal}</td><td>${metrosItem.toFixed(1)} m</td></tr>`;
   }).join('');
 
+  // Pegamento: 0.5 gramos por cada metro de chapacinta usado.
+  const PEGAMENTO_G_POR_METRO = 0.5;
+  const totalPegamentoG = totalChapacintaM * PEGAMENTO_G_POR_METRO;
+
+  // Materiales/insumos capturados en la pestaña 05, multiplicados por las
+  // piezas del bloque (cantidad por pieza x piezas del bloque).
+  const filasMateriales = materiales.map(m => {
+    const cantidadTotal = (m.cantidad || 0) * piezasBloque;
+    return `<tr><td>${m.desc}</td><td>${m.codigo || '—'}</td><td>${m.cantidad || 0}</td><td>${cantidadTotal}</td></tr>`;
+  }).join('');
+
+  // Tabla resumen final, lista para pedir a Materia Prima:
+  // SKU | Concepto | Qty Por Producto | Qty Total por bloque.
+  // (La caja/unicel/esquineros ya se calculan y guardan aparte, en "Cajas y Empaque".)
+  const resumenFilas = materiales.map(m => ({sku: m.codigo || '—', concepto: m.desc, porProducto: m.cantidad || 0, total: (m.cantidad||0)*piezasBloque}));
+
   panel.innerHTML = `
     <div class="note" style="margin-bottom:20px;font-size:14px;">Producto: <b>${lmModeloActual}</b> · ${piezasBloque} piezas por bloque</div>
 
@@ -1364,7 +1511,26 @@ function renderListaMateriales(items, piezasBloque){
       <thead><tr><th>ITEM</th><th>Piezas</th><th>Metros</th></tr></thead>
       <tbody>${filasChapa}</tbody>
     </table>
-    <div class="manual-big" style="font-size:24px;">Total de chapacinta: ${totalChapacintaM.toFixed(1)} m</div>
+    <div class="manual-big" style="font-size:24px;margin-bottom:24px;">Total de chapacinta: ${totalChapacintaM.toFixed(1)} m</div>
+
+    <div class="note" style="margin-bottom:6px;font-weight:700;color:var(--text);">PEGAMENTO</div>
+    <div class="note" style="margin-bottom:10px;">Se calcula a ${PEGAMENTO_G_POR_METRO}g por cada metro de chapacinta.</div>
+    <div class="manual-big" style="font-size:24px;margin-bottom:24px;">Total de pegamento: ${totalPegamentoG.toFixed(1)} g</div>
+
+    <div class="note" style="margin-bottom:6px;font-weight:700;color:var(--text);">MATERIALES</div>
+    ${materiales.length ? `
+    <table class="corte-table" style="margin-bottom:24px;">
+      <thead><tr><th>Descripción</th><th>Código</th><th>Qty por pieza</th><th>Qty total</th></tr></thead>
+      <tbody>${filasMateriales}</tbody>
+    </table>` : `<div class="note" style="margin-bottom:24px;">Este modelo no tiene materiales capturados en la pestaña 05.</div>`}
+
+    <div class="note" style="margin-bottom:6px;font-weight:700;color:var(--text);">📋 RESUMEN PARA PEDIR A MATERIA PRIMA</div>
+    <div class="note" style="margin-bottom:10px;">La caja, unicel y esquineros de este modelo se calculan y guardan en "Cajas y Empaque" — revisa ahí sus SKU y cantidades.</div>
+    ${resumenFilas.length ? `
+    <table class="corte-table">
+      <thead><tr><th>SKU</th><th>Concepto</th><th>Qty Por Producto</th><th>Qty Total por bloque</th></tr></thead>
+      <tbody>${resumenFilas.map(r => `<tr><td>${r.sku}</td><td>${r.concepto}</td><td>${r.porProducto}</td><td><b style="color:var(--amber);">${r.total}</b></td></tr>`).join('')}</tbody>
+    </table>` : `<div class="note">No hay materiales capturados en la pestaña 05.</div>`}
   `;
 }
 
@@ -1542,7 +1708,7 @@ async function showBitEnchOrdenes(){
       : '';
     return `
     <button class="item-btn" data-consecutivo="${o.consecutivo}" type="button" style="min-width:100%;font-size:17px;padding:18px;text-align:left;">
-      Orden #${o.consecutivo} — ${o.modelo} <span style="color:var(--text-dim);font-size:13px;">(entrega: ${fmtFecha(o.fechaEntrega)})</span><br>
+      Orden #${o.consecutivo} — ${o.modelo}${o.opOc ? ` · OP/OC: ${o.opOc}` : ''} <span style="color:var(--text-dim);font-size:13px;">(entrega: ${fmtFecha(o.fechaEntrega)})</span><br>
       <span style="font-size:13px;">${badge}</span>
     </button>`;
   }).join('');
@@ -1552,9 +1718,21 @@ async function showBitEnchOrdenes(){
 }
 document.getElementById('btnBitEnchapado').addEventListener('click', showBitEnchOrdenes);
 document.getElementById('backFromBitEnchOrdenes').addEventListener('click', showBitacoraMenu);
-document.getElementById('btnVerTablaEnchDesdeOrdenes').addEventListener('click', showBitEnchTabla);
 
 let bitEnchOrdenActual = null, bitEnchItemsActuales = [], bitEnchItemElegido = null;
+
+// Trae todos los estatus de Bitácora de Enchapado guardados (una sola vez,
+// se reutiliza tanto para el avance por ITEM como el estatus por color).
+async function loadTodosBitEnchEstados(){
+  if(USE_SERVER){
+    try{ return await apiListData('bitacora_estados'); } catch(e){ return []; }
+  }
+  try{
+    const map = JSON.parse(localStorage.getItem('mdf_bitacora_estados_v1') || '{}');
+    return Object.keys(map).map(clave => ({clave, valor: map[clave]}));
+  } catch(e){ return []; }
+}
+let bitEnchEstadosCache = [];
 
 async function showBitEnchItemColor(consecutivo){
   const ordenes = await loadOrdenes();
@@ -1574,14 +1752,28 @@ async function showBitEnchItemColor(consecutivo){
   bitEnchOrdenActual = orden;
   bitEnchItemsActuales = mergeItemsBySize(items);
   bitEnchItemElegido = null;
+  bitEnchEstadosCache = await loadTodosBitEnchEstados();
 
   cmaHideAll();
   document.getElementById('bitEnchItemColorView').style.display = '';
   document.getElementById('bitEnchItemColorTitle').textContent = `Orden #${orden.consecutivo} — ¿Qué ITEM vas a trabajar?`;
   document.getElementById('bitEnchColorSection').style.display = 'none';
 
+  const colores = orden.colores || [];
   const itemWrap = document.getElementById('bitEnchItemList');
-  itemWrap.innerHTML = bitEnchItemsActuales.map((it, i) => `<button class="item-btn bit-ench-item-btn" data-idx="${i}" type="button" style="min-width:100%;font-size:17px;padding:18px;">ITEM ${it.name}${it.desc ? ` — ${it.desc}` : ''}</button>`).join('');
+  itemWrap.innerHTML = bitEnchItemsActuales.map((it, i) => {
+    const terminados = colores.filter(c => {
+      const clave = claveBitEstado(orden, it, c.color);
+      const match = bitEnchEstadosCache.find(r => r.clave === clave);
+      return match && match.valor && match.valor.estado === 'terminado';
+    }).length;
+    const completo = colores.length > 0 && terminados === colores.length;
+    const totalPiezasItem = it.cant * colores.reduce((s,c) => s + c.cant, 0);
+    return `<button class="item-btn bit-ench-item-btn" data-idx="${i}" type="button" style="min-width:100%;font-size:17px;padding:18px;text-align:left;${completo ? 'border-color:#7fae6f;' : ''}">
+      ITEM ${it.name}${it.desc ? ` — ${it.desc}` : ''} <span style="color:var(--text-dim);font-weight:400;font-size:13px;">(${totalPiezasItem} piezas en total)</span>
+      <span style="float:right;font-weight:700;color:${completo ? '#7fae6f' : 'var(--amber)'};">${terminados}/${colores.length} Terminado${completo ? ' ✅' : ''}</span>
+    </button>`;
+  }).join('');
   itemWrap.querySelectorAll('.bit-ench-item-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       itemWrap.querySelectorAll('.bit-ench-item-btn').forEach(b => b.classList.remove('active'));
@@ -1627,7 +1819,22 @@ function mostrarSelectorColorEnch(){
   const section = document.getElementById('bitEnchColorSection');
   section.style.display = '';
   const colorWrap = document.getElementById('bitEnchColorList');
-  colorWrap.innerHTML = bitEnchOrdenActual.colores.map((c, i) => `<button class="item-btn bit-ench-color-btn" data-idx="${i}" type="button" style="min-width:100%;font-size:17px;padding:18px;">${c.color} (${c.cant} muebles)</button>`).join('');
+  function badgeEstado(clave){
+    const match = bitEnchEstadosCache.find(r => r.clave === clave);
+    const estado = match && match.valor && match.valor.estado;
+    if(estado === 'terminado') return {txt:'✅ Terminado', color:'#7fae6f'};
+    if(estado === 'pausado') return {txt:'🟡 En Proceso', color:'var(--amber)'};
+    return {txt:'⚪ Por Iniciar', color:'var(--text-dim)'};
+  }
+  colorWrap.innerHTML = bitEnchOrdenActual.colores.map((c, i) => {
+    const clave = claveBitEstado(bitEnchOrdenActual, bitEnchItemElegido, c.color);
+    const e = badgeEstado(clave);
+    const piezasDeEsteColor = bitEnchItemElegido.cant * c.cant;
+    return `<button class="item-btn bit-ench-color-btn" data-idx="${i}" type="button" style="min-width:100%;font-size:17px;padding:18px;text-align:left;">
+      ${c.color} (${piezasDeEsteColor} piezas)
+      <span style="float:right;font-weight:700;color:${e.color};">${e.txt}</span>
+    </button>`;
+  }).join('');
   colorWrap.querySelectorAll('.bit-ench-color-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       const color = bitEnchOrdenActual.colores[parseInt(btn.dataset.idx, 10)];
@@ -1636,7 +1843,7 @@ function mostrarSelectorColorEnch(){
       if(est && est.estado === 'terminado'){
         mostrarBloqueCerrado(bitEnchOrdenActual, bitEnchItemElegido, color, est);
       } else {
-        iniciarPantallaTimer(bitEnchOrdenActual, bitEnchItemElegido, color, clave, est);
+        await iniciarPantallaTimer(bitEnchOrdenActual, bitEnchItemElegido, color, clave, est);
       }
     });
   });
@@ -1680,16 +1887,25 @@ function segundosTranscurridos(){
   return Math.max(0, Math.floor((fin - bitTimer.inicio - totalPausado) / 1000));
 }
 
-const LADOS_POR_MINUTO = 21; // ritmo de referencia, sin importar el tamaño de la pieza
-
-function iniciarPantallaTimer(orden, item, color, clave, estExistente){
+async function iniciarPantallaTimer(orden, item, color, clave, estExistente){
   const piezas = item.cant * color.cant;
   const carasPorPieza = (item.enchapl||0) + (item.enchapa||0);
   const totalLados = piezas * carasPorPieza;
-  const tiempoEstimadoSeg = Math.round((totalLados / LADOS_POR_MINUTO) * 60);
+
+  // Ya no se usa un ritmo fijo — busca en la Tabla de Tiempos (Ingeniería →
+  // Tiempos → Enchapado) las piezas/minuto según la medida real de cada lado.
+  const tablaTiempos = await loadTiemposEnchapado();
+  const velLargo = buscarPiezasPorHora(tablaTiempos, item.L) || 0;
+  const velCorto = buscarPiezasPorHora(tablaTiempos, item.A) || 0;
+  const tieneVelocidad = (item.enchapl > 0 ? velLargo > 0 : true) && (item.enchapa > 0 ? velCorto > 0 : true);
+  const minPorPieza = (item.enchapl > 0 && velLargo > 0 ? item.enchapl / velLargo : 0)
+                     + (item.enchapa > 0 && velCorto > 0 ? item.enchapa / velCorto : 0);
+  const tiempoEstimadoSeg = tieneVelocidad ? Math.round(minPorPieza * piezas * 60) : null;
 
   if(estExistente && estExistente.estado === 'pausado'){
     bitTimer = {orden, item, color, clave, inicio: estExistente.inicio, fin: null, pausas: estExistente.pausas || [], estado: 'pausado', intervalId: null, tiempoEstimadoSeg};
+  } else if(estExistente && estExistente.estado === 'corriendo'){
+    bitTimer = {orden, item, color, clave, inicio: estExistente.inicio, fin: null, pausas: estExistente.pausas || [], estado: 'corriendo', intervalId: null, tiempoEstimadoSeg};
   } else {
     bitTimer = {orden, item, color, clave, inicio: null, fin: null, pausas: [], estado: 'no_iniciado', intervalId: null, tiempoEstimadoSeg};
   }
@@ -1697,13 +1913,23 @@ function iniciarPantallaTimer(orden, item, color, clave, estExistente){
   document.getElementById('bitEnchTimerView').style.display = '';
   document.getElementById('bitEnchTimerHeader').innerHTML =
     `<b>Orden #${orden.consecutivo}</b> — ${orden.modelo} · ITEM ${item.name} · Color: <b>${color.color}</b>`;
-  document.getElementById('bitEnchTiempoEstimado').textContent =
-    `⏱️ Deberían tardar ${fmtHMS(tiempoEstimadoSeg)} en este ITEM y color (${totalLados} lados × 21 lados/min)`;
+  document.getElementById('bitEnchTiempoEstimado').innerHTML = tieneVelocidad
+    ? `⏱️ Deberían tardar ${fmtHMS(tiempoEstimadoSeg)} en este ITEM y color (${totalLados} lados, según la Tabla de Tiempos)`
+    : `<span style="color:var(--err);">Falta capturar la velocidad en "Ingeniería → Tiempos → Enchapado" para la medida ${!velLargo && item.enchapl>0 ? item.L : item.A}mm — no se puede calcular el tiempo estimado.</span>`;
   document.getElementById('bitEnchTimerReloj').textContent = fmtHMS(segundosTranscurridos());
   document.getElementById('bitEnchTiempoRestante').textContent = '';
   document.getElementById('bitEnchPausasLista').innerHTML = '';
   document.getElementById('bitEnchMotivoSection').style.display = 'none';
   renderBitEnchTimerEstado();
+  // Si ya estaba corriendo (se salió sin pausar ni terminar), retoma el
+  // reloj en vivo de inmediato, sin que tengas que darle EMPIEZA otra vez.
+  if(bitTimer.estado === 'corriendo'){
+    bitTimer.intervalId = setInterval(() => {
+      document.getElementById('bitEnchTimerReloj').textContent = fmtHMS(segundosTranscurridos());
+      actualizarTiempoRestante();
+    }, 1000);
+    actualizarTiempoRestante();
+  }
 }
 document.getElementById('backFromBitEnchTimer').addEventListener('click', () => {
   if(bitTimer && bitTimer.intervalId) clearInterval(bitTimer.intervalId);
@@ -1749,6 +1975,7 @@ function renderBitEnchTimerEstado(){
 function actualizarTiempoRestante(){
   const el = document.getElementById('bitEnchTiempoRestante');
   if(!bitTimer || !bitTimer.inicio) { el.textContent = ''; return; }
+  if(bitTimer.tiempoEstimadoSeg == null){ el.textContent = ''; return; }
   const restante = bitTimer.tiempoEstimadoSeg - segundosTranscurridos();
   if(restante >= 0){
     el.textContent = `⏳ Tiempo restante: ${fmtHMS(restante)}`;
@@ -1757,7 +1984,7 @@ function actualizarTiempoRestante(){
   }
 }
 
-document.getElementById('bitEnchEmpiezaBtn').addEventListener('click', () => {
+document.getElementById('bitEnchEmpiezaBtn').addEventListener('click', async () => {
   if(bitTimer.estado === 'no_iniciado'){
     bitTimer.inicio = Date.now();
     bitTimer.estado = 'corriendo';
@@ -1772,6 +1999,8 @@ document.getElementById('bitEnchEmpiezaBtn').addEventListener('click', () => {
   }, 1000);
   actualizarTiempoRestante();
   renderBitEnchTimerEstado();
+  // Guarda que quedó "corriendo" — así, si sales y vuelves a entrar, sigue corriendo en vez de reiniciar.
+  await saveBitEnchEstado(bitTimer.clave, {estado: 'corriendo', inicio: bitTimer.inicio, pausas: bitTimer.pausas});
 });
 
 document.getElementById('bitEnchPausaBtn').addEventListener('click', () => {
@@ -1796,12 +2025,33 @@ document.getElementById('bitEnchConfirmarPausaBtn').addEventListener('click', as
 document.getElementById('bitEnchAcabaBtn').addEventListener('click', () => {
   document.getElementById('bitEnchFotoSection').style.display = '';
   document.getElementById('bitEnchMotivoSection').style.display = 'none';
+  document.getElementById('bitEnchFotoInput').value = '';
+  document.getElementById('bitEnchFotoInputCamara').value = '';
+  document.getElementById('bitEnchFotoElegidaNote').textContent = '';
+});
+
+document.getElementById('bitEnchFotoInput').addEventListener('change', (e) => {
+  const noteEl = document.getElementById('bitEnchFotoElegidaNote');
+  if(e.target.files[0]){
+    document.getElementById('bitEnchFotoInputCamara').value = '';
+    noteEl.style.color = 'var(--ok)';
+    noteEl.textContent = `Foto elegida: ${e.target.files[0].name}`;
+  }
+});
+document.getElementById('bitEnchFotoInputCamara').addEventListener('change', (e) => {
+  const noteEl = document.getElementById('bitEnchFotoElegidaNote');
+  if(e.target.files[0]){
+    document.getElementById('bitEnchFotoInput').value = '';
+    noteEl.style.color = 'var(--ok)';
+    noteEl.textContent = `📷 Foto tomada con la cámara.`;
+  }
 });
 
 document.getElementById('bitEnchConfirmarFotoBtn').addEventListener('click', async () => {
   const fileInput = document.getElementById('bitEnchFotoInput');
-  const file = fileInput.files[0];
-  if(!file){ alert('Sube una foto de la tarima antes de cerrar este bloque.'); return; }
+  const fileInputCamara = document.getElementById('bitEnchFotoInputCamara');
+  const file = (fileInputCamara.files && fileInputCamara.files[0]) || (fileInput.files && fileInput.files[0]);
+  if(!file){ alert('Sube o toma una foto de la tarima antes de cerrar este bloque.'); return; }
 
   const confirmarBtn = document.getElementById('bitEnchConfirmarFotoBtn');
   confirmarBtn.disabled = true;
@@ -1866,26 +2116,75 @@ document.getElementById('bitEnchConfirmarFotoBtn').addEventListener('click', asy
   mostrarBloqueCerrado(bitTimer.orden, bitTimer.item, bitTimer.color, estadoCerrado);
 });
 
+let tiemposTrabajoFilasCache = [];
+
 async function showBitEnchTabla(){
   cmaHideAll();
   document.getElementById('bitEnchTablaView').style.display = '';
   const wrap = document.getElementById('bitEnchTablaWrap');
   wrap.innerHTML = '<div class="note">Cargando…</div>';
-  const rows = (await loadBitEnch()).slice().reverse();
+
+  const [rows, ordenes] = await Promise.all([loadBitEnch(), loadOrdenes()]);
+  const opOcPorOrden = {};
+  ordenes.forEach(o => { opOcPorOrden[o.consecutivo] = o.opOc || ''; });
+  tiemposTrabajoFilasCache = rows.map(r => ({...r, opOc: opOcPorOrden[r.ordenConsecutivo] || ''})).slice().reverse();
+
+  // Llena los selects de filtro con los modelos y (según el modelo elegido) los ITEMs disponibles.
+  const modeloSel = document.getElementById('tiemposFiltroModelo');
+  const modelos = [...new Set(tiemposTrabajoFilasCache.map(r => r.modelo))].sort();
+  modeloSel.innerHTML = '<option value="">Todos</option>' + modelos.map(m => `<option value="${m}">${m}</option>`).join('');
+
+  function actualizarFiltroItems(){
+    const modeloElegido = modeloSel.value;
+    const itemSel = document.getElementById('tiemposFiltroItem');
+    const items = [...new Set(tiemposTrabajoFilasCache.filter(r => !modeloElegido || r.modelo === modeloElegido).map(r => r.item))].sort();
+    itemSel.innerHTML = '<option value="">Todos</option>' + items.map(i => `<option value="${i}">${i}</option>`).join('');
+  }
+  actualizarFiltroItems();
+  modeloSel.onchange = () => { actualizarFiltroItems(); renderTiemposTrabajoTabla(); };
+  document.getElementById('tiemposFiltroItem').onchange = renderTiemposTrabajoTabla;
+  document.getElementById('tiemposFiltroFecha').onchange = renderTiemposTrabajoTabla;
+  document.getElementById('tiemposFiltroLimpiarBtn').onclick = () => {
+    modeloSel.value = ''; actualizarFiltroItems();
+    document.getElementById('tiemposFiltroItem').value = '';
+    document.getElementById('tiemposFiltroFecha').value = '';
+    renderTiemposTrabajoTabla();
+  };
+
+  renderTiemposTrabajoTabla();
+}
+
+function renderTiemposTrabajoTabla(){
+  const wrap = document.getElementById('bitEnchTablaWrap');
+  const modeloF = document.getElementById('tiemposFiltroModelo').value;
+  const itemF = document.getElementById('tiemposFiltroItem').value;
+  const fechaF = document.getElementById('tiemposFiltroFecha').value; // YYYY-MM-DD
+
+  const rows = tiemposTrabajoFilasCache.filter(r => {
+    if(modeloF && r.modelo !== modeloF) return false;
+    if(itemF && r.item !== itemF) return false;
+    if(fechaF){
+      const fechaFin = new Date(r.fin).toISOString().slice(0,10);
+      if(fechaFin !== fechaF) return false;
+    }
+    return true;
+  });
+
   if(!rows.length){
-    wrap.innerHTML = '<div class="note">Aún no hay bloques de enchapado terminados.</div>';
+    wrap.innerHTML = '<div class="note">No hay bloques que coincidan con estos filtros.</div>';
     return;
   }
   wrap.innerHTML = `
-    <table class="corte-table" style="min-width:900px;">
+    <table class="corte-table" style="min-width:1000px;">
       <thead><tr>
-        <th>Orden</th><th>Modelo</th><th>ITEM</th><th>Color</th><th>Medida</th><th>Caras/pza</th>
+        <th>Orden</th><th>OP / OC</th><th>Modelo</th><th>ITEM</th><th>Color</th><th>Medida</th><th>Caras/pza</th>
         <th>Piezas</th><th>Metros lineales</th><th>Inicio</th><th>Fin</th><th>Tiempo neto</th><th>Pausas</th>
       </tr></thead>
       <tbody>
         ${rows.map(r => `
           <tr>
             <td>#${r.ordenConsecutivo}</td>
+            <td>${r.opOc || '—'}</td>
             <td>${r.modelo}</td>
             <td>${r.item}</td>
             <td>${r.color}</td>
@@ -1901,7 +2200,8 @@ async function showBitEnchTabla(){
       </tbody>
     </table>`;
 }
-document.getElementById('backFromBitEnchTabla').addEventListener('click', showBitacoraMenu);
+document.getElementById('btnGoTiemposTrabajo').addEventListener('click', showBitEnchTabla);
+document.getElementById('backFromBitEnchTabla').addEventListener('click', showHomeChoice);
 
 // ===== Configuración de Máquina automática =====
 // Módulo instructivo paso a paso, pensado para usarse desde el celular.
@@ -1911,7 +2211,8 @@ function cmaHideAll(){
    'cmaModelosView','cmaItemsView','cmaConfigPickView','cmaInstruccionesView','fotosView',
    'lmModelosView','lmBloqueView','lmResultadoView','cbModelosView','cbConfigView','bitacoraMenuView',
    'bitEnchOrdenesView','bitEnchItemColorView','bitEnchTimerView','bitEnchTablaView','adminPlanesView',
-   'tiemposMenuView','tiemposEnchapadoView'].forEach(id => {
+   'tiemposMenuView','tiemposEnchapadoView','cajasEmpaqueModelosView','cajasEmpaqueProteccionView','cajasEmpaquePropuestaView',
+   'planesEquiposView','planesColaView','entregaItemsView'].forEach(id => {
     document.getElementById(id).style.display = 'none';
   });
 }
@@ -2484,6 +2785,29 @@ async function renderEditModelsList(){
       }
     });
   });
+
+  const searchInput = document.getElementById('editModelsSearch');
+  searchInput.value = '';
+  searchInput.oninput = () => {
+    const q = searchInput.value.trim().toLowerCase();
+    let visibles = 0;
+    wrap.querySelectorAll('.model-chip').forEach(chip => {
+      const match = chip.dataset.model.toLowerCase().includes(q);
+      chip.style.display = match ? '' : 'none';
+      if(match) visibles++;
+    });
+    let sinResultados = wrap.querySelector('.no-search-results');
+    if(!visibles && q){
+      if(!sinResultados){
+        sinResultados = document.createElement('div');
+        sinResultados.className = 'note no-search-results';
+        wrap.appendChild(sinResultados);
+      }
+      sinResultados.textContent = `Ningún modelo coincide con "${searchInput.value.trim()}".`;
+    } else if(sinResultados){
+      sinResultados.remove();
+    }
+  };
 }
 
 async function renderWorkModelsList(){
@@ -2660,6 +2984,182 @@ async function showAdminPlanes(){
 document.getElementById('btnGoAdminPlanes').addEventListener('click', showAdminPlanes);
 document.getElementById('backFromAdminPlanes').addEventListener('click', showHomeChoice);
 
+function calcularAlertaEntrega(fechaEntrega){
+  if(!fechaEntrega) return '';
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const [y,m,d] = fechaEntrega.split('-').map(Number);
+  const fechaEnt = new Date(y, m-1, d);
+  const diffDias = Math.round((fechaEnt - hoy) / (1000*60*60*24));
+  if(diffDias <= 0){
+    return `<div class="note" style="background:#3a1c1c;border:1.5px solid var(--err);color:#ff9999;border-radius:6px;padding:10px 14px;margin-bottom:14px;font-weight:700;">⚠️ Estas entregas están retrasadas</div>`;
+  }
+  if(diffDias === 1){
+    return `<div class="note" style="background:#3a2f14;border:1.5px solid var(--amber);color:var(--amber);border-radius:6px;padding:10px 14px;margin-bottom:14px;font-weight:700;">⚠️ Entrega día siguiente</div>`;
+  }
+  return '';
+}
+
+// ===== Cola de trabajo (Planes de trabajo diario para los equipos) =====
+// Cada equipo agrupa procesos de la Ruta: Corte, Enchapado, y Maquinado
+// (que a su vez agrupa Manual/Automático/CNC).
+const EQUIPO_POR_PROCESO = {
+  'Corte': 'Corte',
+  'Enchapado': 'Enchapado',
+  'Manual': 'Maquinado',
+  'Automático': 'Maquinado',
+  'CNC': 'Maquinado'
+};
+function claveColaTrabajo(consecutivo, itemName, etiquetaProceso, color){
+  return `${consecutivo}_${itemName}_${etiquetaProceso}_${color}`;
+}
+async function loadColaTrabajo(){
+  let rows;
+  if(USE_SERVER){
+    try{ rows = await apiListData('cola_trabajo'); } catch(e){ rows = []; }
+  } else {
+    try{
+      const map = JSON.parse(localStorage.getItem('mdf_cola_trabajo_v1') || '{}');
+      rows = Object.keys(map).map(clave => ({clave, valor: map[clave]}));
+    } catch(e){ rows = []; }
+  }
+  const out = {};
+  rows.forEach(r => { out[r.clave] = r.valor; });
+  return out;
+}
+async function agregarAColaTrabajo(d){
+  const cola = await loadColaTrabajo();
+  const maxPrioridad = Object.values(cola).filter(v => v.equipo === d.equipo).reduce((max,v) => Math.max(max, v.prioridad||0), 0);
+  const valor = {
+    consecutivo: parseInt(d.consecutivo,10), modelo: d.modelo, opOc: d.opOc || '',
+    itemName: d.item, proceso: d.proceso, etiqueta: d.etiqueta, color: d.color, equipo: d.equipo,
+    L: parseFloat(d.l), A: parseFloat(d.a), enchapl: parseFloat(d.enchapl)||0, enchapa: parseFloat(d.enchapa)||0,
+    piezas: parseInt(d.piezas,10)||0, prioridad: maxPrioridad + 1, agregadoEn: new Date().toISOString()
+  };
+  if(USE_SERVER){
+    try{ await apiSaveData('cola_trabajo', d.clave, valor); return true; } catch(e){ return false; }
+  }
+  try{
+    const map = JSON.parse(localStorage.getItem('mdf_cola_trabajo_v1') || '{}');
+    map[d.clave] = valor;
+    localStorage.setItem('mdf_cola_trabajo_v1', JSON.stringify(map));
+    return true;
+  } catch(e){ return false; }
+}
+async function quitarDeColaTrabajo(clave){
+  if(USE_SERVER){
+    try{ await apiDeleteData('cola_trabajo', clave); return true; } catch(e){ return false; }
+  }
+  try{
+    const map = JSON.parse(localStorage.getItem('mdf_cola_trabajo_v1') || '{}');
+    delete map[clave];
+    localStorage.setItem('mdf_cola_trabajo_v1', JSON.stringify(map));
+    return true;
+  } catch(e){ return false; }
+}
+async function guardarPrioridadesColaTrabajo(entradas){
+  // entradas: [{clave, valor}] ya con su nueva prioridad asignada.
+  if(USE_SERVER){
+    try{ await Promise.all(entradas.map(e => apiSaveData('cola_trabajo', e.clave, e.valor))); return true; }
+    catch(e){ return false; }
+  }
+  try{
+    const map = JSON.parse(localStorage.getItem('mdf_cola_trabajo_v1') || '{}');
+    entradas.forEach(e => { map[e.clave] = e.valor; });
+    localStorage.setItem('mdf_cola_trabajo_v1', JSON.stringify(map));
+    return true;
+  } catch(e){ return false; }
+}
+
+// Estatus marcado a mano por el supervisor para procesos que todavía no
+// tienen su propia bitácora con cronómetro (Corte, Manual, Automático, CNC).
+async function guardarEstatusManualProceso(clave, estado){
+  const valor = {estado, marcadoPor: 'supervisor', fecha: new Date().toISOString()};
+  if(USE_SERVER){
+    try{ await apiSaveData('estatus_manual_proceso', clave, valor); return true; }
+    catch(e){ return false; }
+  }
+  try{
+    const map = JSON.parse(localStorage.getItem('mdf_estatus_manual_proceso_v1') || '{}');
+    map[clave] = valor;
+    localStorage.setItem('mdf_estatus_manual_proceso_v1', JSON.stringify(map));
+    return true;
+  } catch(e){ return false; }
+}
+
+// Borra un registro de bitacora_estados (para que un bloque de Enchapado
+// vuelva a "Por Iniciar" por default, sin dejar un registro guardado).
+async function borrarBitEnchEstado(clave){
+  if(USE_SERVER){
+    try{ await apiDeleteData('bitacora_estados', clave); return true; } catch(e){ return false; }
+  }
+  try{
+    const map = JSON.parse(localStorage.getItem('mdf_bitacora_estados_v1') || '{}');
+    delete map[clave];
+    localStorage.setItem('mdf_bitacora_estados_v1', JSON.stringify(map));
+    return true;
+  } catch(e){ return false; }
+}
+
+// El supervisor puede marcar el estatus a mano desde "Ver Estatus por ITEM"
+// para cualquier proceso, incluido Enchapado. Para Enchapado, escribe en la
+// MISMA bitacora_estados que usa la bitácora real con cronómetro — así el
+// operador ve el cambio reflejado ahí también, y viceversa.
+async function guardarEstatusManualUnificado(proc, clave, estado){
+  if(proc === 'Enchapado'){
+    if(estado === 'por_iniciar') return await borrarBitEnchEstado(clave);
+    const valor = (estado === 'terminado')
+      ? {estado: 'terminado', fecha: new Date().toISOString(), pausas: [], marcadoPor: 'supervisor'}
+      : {estado: 'pausado', inicio: Date.now(), pausas: [], marcadoPor: 'supervisor'};
+    return await saveBitEnchEstado(clave, valor);
+  }
+  return await guardarEstatusManualProceso(clave, estado);
+}
+
+function buildAdminPlanCard(o){
+  const coloresFilas = (o.colores || []).map(c => `<tr><td>${c.color}</td><td>${c.cant}</td></tr>`).join('');
+  return `
+    <div class="corte-card" data-consecutivo="${o.consecutivo}">
+      <div class="corte-head">
+        <div class="name">Orden #${o.consecutivo} — ${o.modelo}</div>
+        <div class="dims" style="font-size:13px;">Entrega: ${fmtFecha(o.fechaEntrega)}</div>
+      </div>
+      <div class="corte-body">
+        ${o.cerrada ? '' : calcularAlertaEntrega(o.fechaEntrega)}
+        <table class="corte-table" style="margin-bottom:14px;">
+          <thead><tr><th>Creación</th><th>OP / OC</th><th>Cantidad de piezas</th></tr></thead>
+          <tbody><tr><td>${fmtFecha(o.fechaCreacion)}</td><td>${o.opOc || '—'}</td><td>${o.cantidadPiezas}</td></tr></tbody>
+        </table>
+        <div class="actions" style="margin-top:0;margin-bottom:10px;">
+          <button class="primary admin-orden-accion-btn" data-consecutivo="${o.consecutivo}" data-accion="Corte" type="button">✂️ Corte</button>
+          <button class="primary admin-orden-accion-btn" data-consecutivo="${o.consecutivo}" data-accion="Enchapado" type="button">🎨 Enchapado</button>
+          <button class="primary admin-orden-accion-btn" data-consecutivo="${o.consecutivo}" data-accion="Maquinado" type="button">⚙️ Maquinado</button>
+          <button class="primary admin-orden-accion-btn" data-consecutivo="${o.consecutivo}" data-accion="Entrega" type="button">📦 Entrega</button>
+        </div>
+        <div class="actions" style="margin-top:0;margin-bottom:10px;">
+          <button class="ghost admin-ver-colores-btn" type="button">🎨 Ver colores</button>
+          <button class="ghost admin-ver-estatus-btn" type="button">📊 Ver Estatus por ITEM</button>
+        </div>
+        <div class="admin-colores-wrap" style="display:none;margin-bottom:14px;">
+          <table class="corte-table">
+            <thead><tr><th>Color</th><th>Piezas</th></tr></thead>
+            <tbody>${coloresFilas || '<tr><td colspan="2">Sin colores capturados.</td></tr>'}</tbody>
+          </table>
+        </div>
+        <div class="admin-estatus-wrap" style="display:none;margin-bottom:14px;"></div>
+        <div class="field" style="margin-bottom:10px;">
+          <label>Comentario</label>
+          <input type="text" class="admin-comentario-input" placeholder="Ej. Cliente pidió adelantar entrega..." value="${(o.comentario||'').replace(/"/g,'&quot;')}">
+        </div>
+        <div class="actions" style="margin-top:0;">
+          <button class="ghost admin-guardar-comentario-btn" type="button">💾 Guardar comentario</button>
+          <button class="ghost admin-toggle-cerrada-btn" type="button">${o.cerrada ? '🔓 Reabrir orden' : '🔒 Cerrar orden'}</button>
+          <button class="ghost admin-eliminar-orden-btn" type="button" style="color:var(--err);border-color:var(--err);">🗑️ Eliminar orden</button>
+        </div>
+        <div class="note admin-orden-note"></div>
+      </div>
+    </div>`;
+}
+
 async function renderAdminPlanesList(){
   const wrap = document.getElementById('adminPlanesList');
   wrap.innerHTML = '<div class="note">Cargando órdenes…</div>';
@@ -2668,32 +3168,227 @@ async function renderAdminPlanesList(){
     wrap.innerHTML = '<div class="note">No hay órdenes de producción.</div>';
     return;
   }
-  wrap.innerHTML = ordenes.map(o => `
-    <div class="corte-card" data-consecutivo="${o.consecutivo}">
-      <div class="corte-head">
-        <div class="name">Orden #${o.consecutivo} — ${o.modelo}</div>
-        <div class="dims" style="font-size:13px;">Entrega: ${fmtFecha(o.fechaEntrega)}</div>
-      </div>
-      <div class="corte-body">
-        <table class="corte-table" style="margin-bottom:14px;">
-          <thead><tr><th>Creación</th><th>Cantidad de piezas</th></tr></thead>
-          <tbody><tr><td>${fmtFecha(o.fechaCreacion)}</td><td>${o.cantidadPiezas}</td></tr></tbody>
-        </table>
-        <div class="field" style="margin-bottom:10px;">
-          <label>Comentario</label>
-          <input type="text" class="admin-comentario-input" placeholder="Ej. Cliente pidió adelantar entrega..." value="${(o.comentario||'').replace(/"/g,'&quot;')}">
-        </div>
-        <div class="actions" style="margin-top:0;">
-          <button class="ghost admin-guardar-comentario-btn" type="button">💾 Guardar comentario</button>
-          <button class="ghost admin-eliminar-orden-btn" type="button" style="color:var(--err);border-color:var(--err);">🗑️ Eliminar orden</button>
-        </div>
-        <div class="note admin-orden-note"></div>
-      </div>
-    </div>`).join('');
+  const abiertas = ordenes.filter(o => !o.cerrada)
+    .sort((a,b) => (a.fechaEntrega||'9999-99-99').localeCompare(b.fechaEntrega||'9999-99-99'));
+  const cerradas = ordenes.filter(o => o.cerrada);
+
+  wrap.innerHTML = `
+    <button class="home-categoria-titulo" type="button" data-target="adminPlanesAbiertas">🟢 Órdenes Abiertas (${abiertas.length}) <span class="home-categoria-chevron">▾</span></button>
+    <div class="home-categoria-body" id="adminPlanesAbiertas" style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px;">
+      ${abiertas.length ? abiertas.map(buildAdminPlanCard).join('') : '<div class="note">No hay órdenes abiertas.</div>'}
+    </div>
+    <button class="home-categoria-titulo" type="button" data-target="adminPlanesCerradas">🔒 Órdenes Cerradas (${cerradas.length}) <span class="home-categoria-chevron">▾</span></button>
+    <div class="home-categoria-body" id="adminPlanesCerradas" style="display:flex;flex-direction:column;gap:14px;">
+      ${cerradas.length ? cerradas.map(buildAdminPlanCard).join('') : '<div class="note">No hay órdenes cerradas.</div>'}
+    </div>
+  `;
+  wrap.querySelectorAll('.home-categoria-titulo').forEach(titleBtn => {
+    titleBtn.addEventListener('click', () => {
+      const body = document.getElementById(titleBtn.dataset.target);
+      const cerrado = body.classList.toggle('collapsed');
+      titleBtn.classList.toggle('collapsed', cerrado);
+    });
+  });
 
   wrap.querySelectorAll('.corte-card').forEach(card => {
     const consecutivo = parseInt(card.dataset.consecutivo, 10);
     const noteEl = card.querySelector('.admin-orden-note');
+
+    card.querySelectorAll('.admin-orden-accion-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        if(btn.dataset.accion === 'Corte'){
+          abrirOrdenCorte(parseInt(btn.dataset.consecutivo, 10));
+        } else if(btn.dataset.accion === 'Enchapado'){
+          abrirOrdenEnchapado(parseInt(btn.dataset.consecutivo, 10));
+        } else if(btn.dataset.accion === 'Maquinado'){
+          abrirOrdenMaquinado(parseInt(btn.dataset.consecutivo, 10));
+        } else {
+          alert(`"${btn.dataset.accion}" para la Orden #${btn.dataset.consecutivo} se construirá en el siguiente paso.`);
+        }
+      });
+    });
+
+    const verColoresBtn = card.querySelector('.admin-ver-colores-btn');
+    verColoresBtn.addEventListener('click', () => {
+      const coloresWrap = card.querySelector('.admin-colores-wrap');
+      const abierto = coloresWrap.style.display !== 'none';
+      coloresWrap.style.display = abierto ? 'none' : '';
+      verColoresBtn.textContent = abierto ? '🎨 Ver colores' : '✖️ Ocultar colores';
+    });
+
+    const verEstatusBtn = card.querySelector('.admin-ver-estatus-btn');
+    verEstatusBtn.addEventListener('click', async () => {
+      const estatusWrap = card.querySelector('.admin-estatus-wrap');
+      const abierto = estatusWrap.style.display !== 'none';
+      if(abierto){
+        estatusWrap.style.display = 'none';
+        verEstatusBtn.textContent = '📊 Ver Estatus por ITEM';
+        return;
+      }
+      estatusWrap.style.display = '';
+      verEstatusBtn.textContent = '✖️ Ocultar Estatus por ITEM';
+      estatusWrap.innerHTML = '<div class="note">Cargando…</div>';
+
+      const orden = ordenes.find(o => o.consecutivo === consecutivo);
+      if(!orden){ estatusWrap.innerHTML = '<div class="note" style="color:var(--err);">No se encontró la orden.</div>'; return; }
+
+      let items, maquinado;
+      try{
+        if(USE_SERVER){ const data = await apiGetModel(orden.modelo); items = data.items; maquinado = data.maquinado || {}; }
+        else { const models = loadModelsFromStorage(); items = models[orden.modelo] ? models[orden.modelo].items : []; maquinado = models[orden.modelo] ? (models[orden.modelo].maquinado || {}) : {}; }
+      } catch(e){ items = []; maquinado = {}; }
+      if(!Array.isArray(items) || !items.length){
+        estatusWrap.innerHTML = '<div class="note" style="color:var(--err);">El modelo no tiene ITEMs capturados.</div>';
+        return;
+      }
+
+      // Por ahora solo Enchapado guarda estatus real (desde Bitácora). Los
+      // demás procesos los puede marcar el supervisor a mano aquí mismo,
+      // mientras no tengan su propia bitácora con cronómetro.
+      let estadosEnch = [];
+      if(USE_SERVER){ try{ estadosEnch = await apiListData('bitacora_estados'); } catch(e){} }
+      else { try{ const map = JSON.parse(localStorage.getItem('mdf_bitacora_estados_v1')||'{}'); estadosEnch = Object.keys(map).map(clave=>({clave, valor:map[clave]})); } catch(e){} }
+
+      let estadosManual = [];
+      if(USE_SERVER){ try{ estadosManual = await apiListData('estatus_manual_proceso'); } catch(e){} }
+      else { try{ const map = JSON.parse(localStorage.getItem('mdf_estatus_manual_proceso_v1')||'{}'); estadosManual = Object.keys(map).map(clave=>({clave, valor:map[clave]})); } catch(e){} }
+
+      const colaActual = await loadColaTrabajo();
+
+      function estadoColor(estado){
+        if(estado === 'terminado') return {txt:'✅ Terminado', color:'#7fae6f'};
+        if(estado === 'pausado' || estado === 'en_proceso') return {txt:'🟡 En Proceso', color:'var(--amber)'};
+        return {txt:'⚪ Por Iniciar', color:'var(--text-dim)'};
+      }
+      function claveEstatusManual(itemName, etiqueta, colorNombre){
+        return `${orden.consecutivo}_${itemName}_${etiqueta}_${colorNombre}`;
+      }
+      // Enchapado usa su bitácora real (con cronómetro y foto). Los demás
+      // procesos usan lo que el supervisor haya marcado a mano aquí.
+      // (Si un proceso se repite en la Ruta, cada ocurrencia — #1, #2... —
+      // ya tiene su propia clave gracias a "etiqueta".)
+      function estadoDeColor(proc, it, colorNombre, etiqueta){
+        if(proc === 'Enchapado'){
+          const clave = claveBitEstado(orden, it, colorNombre);
+          const match = estadosEnch.find(r => r.clave === clave);
+          return (match && match.valor && match.valor.estado) || 'por_iniciar';
+        }
+        const clave = claveEstatusManual(it.name, etiqueta, colorNombre);
+        const match = estadosManual.find(r => r.clave === clave);
+        return (match && match.valor && match.valor.estado) || 'por_iniciar';
+      }
+
+      // Aquí usamos los ITEMs tal cual (sin fusionar por medida) — la fusión
+      // por medida (ej. "AB") solo aplica para optimizar el corte, pero cada
+      // ITEM tiene su propia Ruta de Proceso y estatus por separado.
+      const colores = orden.colores || [];
+
+      let html = '';
+      items.forEach(it => {
+        // Solo se muestran los procesos que el ITEM realmente tiene en su
+        // Ruta de Proceso (pestaña 01) — y tantas veces como se repita ahí.
+        const rutaCruda = (maquinado[it.name] && maquinado[it.name].ruta) || [];
+        const contador = {};
+        const pasos = rutaCruda.map(proc => {
+          contador[proc] = (contador[proc] || 0) + 1;
+          const totalDeEste = rutaCruda.filter(p => p === proc).length;
+          return {proc, etiqueta: totalDeEste > 1 ? `${proc} #${contador[proc]}` : proc};
+        });
+
+        // ITEMs que miden exactamente igual se cortan juntos en la misma
+        // hoja (aparecen fusionados en la vista de Corte).
+        const companerosCorte = items.filter(o => o.name !== it.name && o.L === it.L && o.A === it.A).map(o => o.name);
+        const notaCorte = companerosCorte.length
+          ? `<div class="note" style="margin-bottom:8px;color:var(--amber);">🔗 Se corta junto con ITEM ${companerosCorte.join(', ')} (miden igual, aparecen fusionados en Corte).</div>`
+          : '';
+
+        if(!pasos.length){
+          html += `
+            <div class="corte-card" style="margin-bottom:16px;">
+              <div class="corte-head"><div class="name">ITEM ${it.name}${it.desc ? ` — ${it.desc}` : ''}</div></div>
+              <div class="corte-body">${notaCorte}<div class="note">Este ITEM no tiene Ruta de Proceso configurada (pestaña "01 · Información adicional del modelo").</div></div>
+            </div>`;
+          return;
+        }
+
+        // Un paso está en verde si TODOS sus colores están Terminado.
+        const pasoTerminado = pasos.map(p => colores.length > 0 && colores.every(c => estadoDeColor(p.proc, it, c.color, p.etiqueta) === 'terminado'));
+        // El ITEM está en verde si TODOS sus pasos están terminados.
+        const itemTerminado = pasoTerminado.every(t => t);
+
+        const procesosHtml = pasos.map((p, i) => {
+          const coloresHtml = colores.map(c => {
+            const estadoActual = estadoDeColor(p.proc, it, c.color, p.etiqueta);
+            const e = estadoColor(estadoActual);
+            const equipo = EQUIPO_POR_PROCESO[p.proc] || 'Maquinado';
+            const claveCola = claveColaTrabajo(orden.consecutivo, it.name, p.etiqueta, c.color);
+            const yaEnCola = !!colaActual[claveCola];
+            const casillaHtml = (estadoActual === 'por_iniciar')
+              ? `<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text-dim);margin-left:10px;">
+                   <input type="checkbox" class="cola-trabajo-checkbox" data-clave="${claveCola}" data-equipo="${equipo}"
+                     data-consecutivo="${orden.consecutivo}" data-modelo="${orden.modelo}" data-op-oc="${orden.opOc||''}"
+                     data-item="${it.name}" data-proceso="${p.proc}" data-etiqueta="${p.etiqueta}" data-color="${c.color}"
+                     data-l="${it.L}" data-a="${it.A}" data-enchapl="${it.enchapl||0}" data-enchapa="${it.enchapa||0}"
+                     data-piezas="${it.cant * c.cant}" ${yaEnCola ? 'checked' : ''}>
+                   Poner en cola
+                 </label>`
+              : '';
+            // Enchapado usa la clave de su bitácora real; los demás procesos
+            // usan la clave de estatus manual genérico.
+            const claveManual = (p.proc === 'Enchapado') ? claveBitEstado(orden, it, c.color) : claveEstatusManual(it.name, p.etiqueta, c.color);
+            const manualHtml = `<select class="estatus-manual-select" data-proceso="${p.proc}" data-clave="${claveManual}" style="margin-left:10px;font-size:12px;padding:4px 6px;">
+                   <option value="por_iniciar" ${estadoActual==='por_iniciar'?'selected':''}>⚪ Por Iniciar</option>
+                   <option value="en_proceso" ${(estadoActual==='en_proceso'||estadoActual==='pausado')?'selected':''}>🟡 En Proceso</option>
+                   <option value="terminado" ${estadoActual==='terminado'?'selected':''}>✅ Terminado</option>
+                 </select>`;
+            return `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:4px 0;"><span>${c.color}</span><span style="display:flex;align-items:center;"><span style="color:${e.color};font-weight:700;">${e.txt}</span>${casillaHtml}${manualHtml}</span></div>`;
+          }).join('') || '<div class="note" style="margin:0;">Sin colores.</div>';
+          return `
+            <div class="panel" style="padding:10px 14px;margin-bottom:8px;border-left:4px solid ${pasoTerminado[i] ? '#7fae6f' : 'var(--line)'};${pasoTerminado[i] ? 'background:#1c3a24;' : ''}">
+              <div style="font-weight:700;color:${pasoTerminado[i] ? '#7fae6f' : 'var(--text)'};margin-bottom:4px;">${p.etiqueta}${pasoTerminado[i] ? ' ✅' : ''}</div>
+              ${coloresHtml}
+            </div>`;
+        }).join('');
+
+        html += `
+          <div class="corte-card" style="margin-bottom:16px;${itemTerminado ? 'border-color:#7fae6f;' : ''}">
+            <div class="corte-head" style="${itemTerminado ? 'background:#1c3a24;' : ''}">
+              <div class="name" style="${itemTerminado ? 'color:#7fae6f;' : ''}">ITEM ${it.name}${it.desc ? ` — ${it.desc}` : ''}${itemTerminado ? ' ✅' : ''}</div>
+            </div>
+            <div class="corte-body">${notaCorte}${procesosHtml}</div>
+          </div>`;
+      });
+
+      estatusWrap.innerHTML = html + `<div class="note" style="color:var(--text-dim);">Por ahora solo Enchapado guarda su estatus real (desde Bitácora). Los demás procesos van a mostrar "Por Iniciar" hasta que construyamos su bitácora también.</div>`;
+
+      estatusWrap.querySelectorAll('.cola-trabajo-checkbox').forEach(chk => {
+        chk.addEventListener('change', async () => {
+          const d = chk.dataset;
+          if(chk.checked){
+            const ok = await agregarAColaTrabajo(d);
+            if(!ok){ chk.checked = false; alert('No se pudo poner en cola (revisa tu conexión).'); }
+          } else {
+            const ok = await quitarDeColaTrabajo(d.clave);
+            if(!ok){ chk.checked = true; alert('No se pudo quitar de la cola (revisa tu conexión).'); }
+          }
+        });
+      });
+
+      estatusWrap.querySelectorAll('.estatus-manual-select').forEach(sel => {
+        const valorPrevio = sel.value;
+        sel.addEventListener('change', async () => {
+          const ok = await guardarEstatusManualUnificado(sel.dataset.proceso, sel.dataset.clave, sel.value);
+          if(!ok){
+            sel.value = valorPrevio;
+            alert('No se pudo guardar el estatus (revisa tu conexión).');
+            return;
+          }
+          verEstatusBtn.click(); // cierra
+          verEstatusBtn.click(); // y vuelve a abrir, para refrescar los verdes de ITEM/proceso
+        });
+      });
+    });
 
     card.querySelector('.admin-guardar-comentario-btn').addEventListener('click', async () => {
       const ordenes = await loadOrdenes();
@@ -2703,6 +3398,20 @@ async function renderAdminPlanesList(){
       const ok = await saveOrden(orden);
       noteEl.style.color = ok ? 'var(--ok)' : 'var(--err)';
       noteEl.textContent = ok ? 'Comentario guardado.' : 'No se pudo guardar (revisa tu conexión).';
+    });
+
+    card.querySelector('.admin-toggle-cerrada-btn').addEventListener('click', async () => {
+      const ordenes = await loadOrdenes();
+      const orden = ordenes.find(o => o.consecutivo === consecutivo);
+      if(!orden) return;
+      orden.cerrada = !orden.cerrada;
+      const ok = await saveOrden(orden);
+      if(!ok){
+        noteEl.style.color = 'var(--err)';
+        noteEl.textContent = 'No se pudo guardar (revisa tu conexión).';
+        return;
+      }
+      renderAdminPlanesList();
     });
 
     const delBtn = card.querySelector('.admin-eliminar-orden-btn');
@@ -2741,10 +3450,13 @@ document.querySelectorAll('.tiempos-proceso-btn').forEach(btn => {
   btn.addEventListener('click', () => alert(`Tiempos de "${btn.dataset.proceso}" se construirá en el siguiente paso.`));
 });
 
-// Rangos de medida cada 100mm, de 50mm a 2440mm (el ancho útil máximo de hoja).
+// Rangos de medida cada 100mm, de 50mm a 2440mm (el ancho útil máximo de hoja),
+// más algunos rangos extra agregados a mano (100, 200, 300, 400mm).
 const TIEMPOS_BRACKETS = [];
 for(let v = 50; v <= 2350; v += 100) TIEMPOS_BRACKETS.push(v);
 TIEMPOS_BRACKETS.push(2440);
+[100, 200, 300, 400].forEach(v => { if(!TIEMPOS_BRACKETS.includes(v)) TIEMPOS_BRACKETS.push(v); });
+TIEMPOS_BRACKETS.sort((a,b) => a-b);
 
 async function loadTiemposEnchapado(){
   if(USE_SERVER){
@@ -2765,9 +3477,11 @@ async function saveTiemposEnchapado(tabla){
 // Busca, para una medida dada, la fila del bracket que le corresponde
 // (la más cercana por abajo) y regresa sus piezas/hora (o null si no hay dato).
 function buscarPiezasPorHora(tabla, medida){
-  let bracket = TIEMPOS_BRACKETS[0];
+  // Toma el rango de ARRIBA: el bracket más chico que sea >= la medida.
+  // Ej. medida 110mm con brackets 100 y 150 -> usa 150.
+  let bracket = TIEMPOS_BRACKETS[TIEMPOS_BRACKETS.length - 1]; // si se pasa del máximo, usa el más grande
   for(const b of TIEMPOS_BRACKETS){
-    if(b <= medida) bracket = b; else break;
+    if(b >= medida){ bracket = b; break; }
   }
   const val = tabla[bracket];
   return (val != null && val !== '') ? parseFloat(val) : null;
@@ -2781,7 +3495,7 @@ async function showTiemposEnchapado(){
   const tabla = await loadTiemposEnchapado();
   wrap.innerHTML = `
     <table class="corte-table">
-      <thead><tr><th>Medida (mm)</th><th>Piezas por hora</th></tr></thead>
+      <thead><tr><th>Medida (mm)</th><th>Piezas por minuto</th></tr></thead>
       <tbody>
         ${TIEMPOS_BRACKETS.map(b => `
           <tr>
@@ -2805,6 +3519,929 @@ document.getElementById('tiemposEnchapadoGuardarBtn').addEventListener('click', 
   noteEl.textContent = ok ? 'Tabla guardada.' : 'No se pudo guardar (revisa tu conexión).';
 });
 
+// ===== Cajas y Empaque =====
+async function showCajasEmpaqueModelos(){
+  cmaHideAll();
+  document.getElementById('cajasEmpaqueModelosView').style.display = '';
+  const wrap = document.getElementById('cajasEmpaqueModelosList');
+  wrap.innerHTML = '<div class="note">Cargando modelos…</div>';
+  let names;
+  try{ names = await getModelNamesList(); }
+  catch(e){ wrap.innerHTML = '<div class="note" style="color:var(--err);">No se pudo conectar con tu servidor de modelos.</div>'; return; }
+  if(!names.length){ wrap.innerHTML = '<div class="note">Aún no tienes modelos guardados.</div>'; return; }
+  wrap.innerHTML = names.map(name => `<button class="item-btn" data-model="${name}" type="button" style="min-width:100%;font-size:18px;padding:20px;">${name}</button>`).join('');
+  wrap.querySelectorAll('.item-btn').forEach(btn => {
+    btn.addEventListener('click', () => mostrarPreguntaProteccion(btn.dataset.model));
+  });
+}
+document.getElementById('btnGoCajasEmpaque').addEventListener('click', showCajasEmpaqueModelos);
+document.getElementById('backFromCajasEmpaqueModelos').addEventListener('click', showHomeChoice);
+document.getElementById('backFromCajasEmpaquePropuesta').addEventListener('click', showCajasEmpaqueModelos);
+
+let cajasProteccionSeleccion = new Set();
+
+// Guarda, por modelo, lo que capturaste en esta pantalla (bolsa, espacio
+// extra, protección elegida, y SKU de caja/unicel) para precargarlo la
+// próxima vez que entres a Cajas y Empaque con ese mismo modelo.
+async function loadConfigEmpaquePorModelo(modelo){
+  if(USE_SERVER){
+    try{ const data = await apiGetData('config_empaque_modelo', modelo); return data.valor || null; }
+    catch(e){ return null; }
+  }
+  try{
+    const map = JSON.parse(localStorage.getItem('mdf_config_empaque_modelo_v1') || '{}');
+    return map[modelo] || null;
+  } catch(e){ return null; }
+}
+async function saveConfigEmpaquePorModelo(modelo, valor){
+  if(USE_SERVER){
+    try{ await apiSaveData('config_empaque_modelo', modelo, valor); return true; }
+    catch(e){ return false; }
+  }
+  try{
+    const map = JSON.parse(localStorage.getItem('mdf_config_empaque_modelo_v1') || '{}');
+    map[modelo] = valor;
+    localStorage.setItem('mdf_config_empaque_modelo_v1', JSON.stringify(map));
+    return true;
+  } catch(e){ return false; }
+}
+
+async function mostrarPreguntaProteccion(modelo){
+  cmaHideAll();
+  document.getElementById('cajasEmpaqueProteccionView').style.display = '';
+  document.getElementById('cajasEmpaqueProteccionTitle').textContent = `${modelo} — ¿Quieres usar unicel, esquineros o nada?`;
+
+  const guardado = await loadConfigEmpaquePorModelo(modelo);
+  document.getElementById('cajasEmpaqueBolsaInput').value = (guardado && guardado.bolsa) || '';
+  document.getElementById('cajasEmpaqueExtraL').value = (guardado && guardado.extra && guardado.extra.L) || '';
+  document.getElementById('cajasEmpaqueExtraA').value = (guardado && guardado.extra && guardado.extra.A) || '';
+  document.getElementById('cajasEmpaqueExtraH').value = (guardado && guardado.extra && guardado.extra.H) || '';
+  document.getElementById('cajasEmpaqueSkuCaja').value = (guardado && guardado.skus && guardado.skus.caja) || '';
+  document.getElementById('cajasEmpaqueSkuUnicel').value = (guardado && guardado.skus && guardado.skus.unicel) || '';
+  cajasProteccionSeleccion = new Set((guardado && guardado.proteccion) || []);
+
+  document.getElementById('cajasEmpaqueProteccionNote').textContent = guardado
+    ? 'Se precargó lo que guardaste la última vez para este modelo. Puedes cambiarlo si quieres.'
+    : '';
+
+  document.querySelectorAll('.cajas-proteccion-btn').forEach(btn => {
+    btn.classList.toggle('active', cajasProteccionSeleccion.has(btn.dataset.proteccion));
+    btn.onclick = () => {
+      const val = btn.dataset.proteccion;
+      if(val === 'nada'){
+        // "Nada" es excluyente: la elige y quita cualquier otra selección.
+        cajasProteccionSeleccion = cajasProteccionSeleccion.has('nada') ? new Set() : new Set(['nada']);
+      } else {
+        cajasProteccionSeleccion.delete('nada');
+        if(cajasProteccionSeleccion.has(val)) cajasProteccionSeleccion.delete(val);
+        else cajasProteccionSeleccion.add(val);
+      }
+      document.querySelectorAll('.cajas-proteccion-btn').forEach(b => {
+        b.classList.toggle('active', cajasProteccionSeleccion.has(b.dataset.proteccion));
+      });
+      actualizarCampoSkuUnicel();
+    };
+  });
+  actualizarCampoSkuUnicel();
+
+  function actualizarCampoSkuUnicel(){
+    const usaUnicel = cajasProteccionSeleccion.has('unicel');
+    const skuUnicelInput = document.getElementById('cajasEmpaqueSkuUnicel');
+    skuUnicelInput.disabled = !usaUnicel;
+    if(!usaUnicel) skuUnicelInput.value = '';
+    skuUnicelInput.style.opacity = usaUnicel ? '1' : '.4';
+  }
+
+  document.getElementById('cajasEmpaqueSeguirBtn').onclick = async () => {
+    if(!cajasProteccionSeleccion.size){ alert('Elige al menos una opción (Unicel, Esquineros, o Nada).'); return; }
+    const bolsa = parseFloat(document.getElementById('cajasEmpaqueBolsaInput').value) || 0;
+    const extra = {
+      L: parseFloat(document.getElementById('cajasEmpaqueExtraL').value) || 0,
+      A: parseFloat(document.getElementById('cajasEmpaqueExtraA').value) || 0,
+      H: parseFloat(document.getElementById('cajasEmpaqueExtraH').value) || 0,
+    };
+    const skus = {
+      caja: document.getElementById('cajasEmpaqueSkuCaja').value.trim(),
+      unicel: document.getElementById('cajasEmpaqueSkuUnicel').value.trim(),
+    };
+    // Guarda todo lo capturado en esta pantalla para este modelo, antes de continuar.
+    await saveConfigEmpaquePorModelo(modelo, {bolsa, extra, skus, proteccion: [...cajasProteccionSeleccion]});
+    mostrarPropuestaEmpaque(modelo, cajasProteccionSeleccion, bolsa, extra, skus);
+  };
+}
+document.getElementById('backFromCajasEmpaqueProteccion').addEventListener('click', showCajasEmpaqueModelos);
+
+// ===== Reglas de empaque =====
+const EMPAQUE_LADO_MAX_MM = 1200;   // ningún lado de la caja puede pasar de esto
+const EMPAQUE_TOLERANCIA_MM = 1.5;  // por cada lado, sin importar la protección
+const EMPAQUE_UNICEL_GROSOR_MM = 10; // grosor de cada pieza de unicel
+const EMPAQUE_CHAPACINTA_MM = 0.5;  // por cada lado enchapado, se suma a esa medida
+const EMPAQUE_PROTECCION_LABEL = {nada: 'Nada', esquineros: 'Esquineros', unicel: 'Unicel'};
+
+// Dado el alto disponible para camas de piezas (grosor de MDF apilado, sin
+// contar todavía protección ni tolerancia), regresa cuántas camas caben sin
+// pasar de EMPAQUE_LADO_MAX_MM una vez que ya se sumó todo lo demás.
+// proteccionSet: Set con cualquier combinación de 'unicel'/'esquineros'/'nada'.
+// Toma un alto de "núcleo" ya calculado (coreH) y le aplica protección
+// (unicel: 3 pares de piezas, +10mm por lado) y tolerancia final (+1.5mm por
+// lado). Reutilizable tanto para la propuesta por ITEM como la combinada.
+function calcularCajaFinalDesdeCoreH(coreH, L, A, proteccionSet, extra){
+  extra = extra || {L:0, A:0, H:0};
+  let L2 = L, A2 = A, H2 = coreH;
+  let unicelPzs = null;
+  const usaUnicel = proteccionSet.has('unicel');
+  const usaEsquineros = proteccionSet.has('esquineros');
+
+  if(usaUnicel){
+    const g = EMPAQUE_UNICEL_GROSOR_MM;
+    // 3 pares: (piso/tapa), (pared frontal/trasera), (pared lateral izq/der).
+    // Las paredes bajan hasta el piso (alto total), por eso miden L2+2g / H2+2g.
+    unicelPzs = [
+      {nombre: 'Piso', medida: `${L2 + 2*g} × ${A2 + 2*g} × ${g} mm`, cant: 1},
+      {nombre: 'Tapa', medida: `${L2 + 2*g} × ${A2 + 2*g} × ${g} mm`, cant: 1},
+      {nombre: 'Pared frontal', medida: `${L2 + 2*g} × ${H2 + 2*g} × ${g} mm`, cant: 1},
+      {nombre: 'Pared trasera', medida: `${L2 + 2*g} × ${H2 + 2*g} × ${g} mm`, cant: 1},
+      {nombre: 'Pared lateral izquierda', medida: `${A2} × ${H2 + 2*g} × ${g} mm`, cant: 1},
+      {nombre: 'Pared lateral derecha', medida: `${A2} × ${H2 + 2*g} × ${g} mm`, cant: 1},
+    ];
+    L2 += 2*g; A2 += 2*g; H2 += 2*g;
+  }
+
+  // Tolerancia final, siempre, sin importar la protección. Después, si el
+  // usuario pidió espacio extra hacia algún vector (L/A/H), se suma al final.
+  const t = EMPAQUE_TOLERANCIA_MM * 2;
+  const cajaL = L2 + t + (extra.L||0), cajaA = A2 + t + (extra.A||0), cajaH = H2 + t + (extra.H||0);
+
+  return {coreH, cajaL, cajaA, cajaH, unicelPzs, usaUnicel, usaEsquineros,
+    excedeLimite: cajaL > EMPAQUE_LADO_MAX_MM || cajaA > EMPAQUE_LADO_MAX_MM || cajaH > EMPAQUE_LADO_MAX_MM};
+}
+
+function calcularCajaParaCamas(nCamas, L, A, espacioBolsa, proteccionSet, extra){
+  const coreH = nCamas * SHEET_THICKNESS_MM + espacioBolsa;
+  return calcularCajaFinalDesdeCoreH(coreH, L, A, proteccionSet, extra);
+}
+
+// ===== Propuesta combinada: todos los ITEMs de un producto en 1 sola caja =====
+// El item más grande (por área L×A) define el "piso" de la caja (footprint).
+// Cada ITEM se acomoda en capas dentro de ese footprint (como en un acomodo
+// de rejilla), y las capas se apilan en sándwich: el más grande hasta abajo,
+// y los demás encima en orden descendente de tamaño.
+function piezasPorCapaGrid(boxL, boxA, itemL, itemA, respetaVeta){
+  const normal = Math.floor(boxL/itemL) * Math.floor(boxA/itemA);
+  if(respetaVeta) return {piezas: normal, orientacion: 'normal'};
+  const rotada = Math.floor(boxL/itemA) * Math.floor(boxA/itemL);
+  return rotada > normal ? {piezas: rotada, orientacion: 'rotada 90°'} : {piezas: normal, orientacion: 'normal'};
+}
+
+function calcularPropuestaCombinada(merged, espacioBolsa, proteccionSet, extra){
+  const itemsAj = merged.map(it => ({
+    ...it,
+    Laj: it.L + (it.enchapl||0) * EMPAQUE_CHAPACINTA_MM,
+    Aaj: it.A + (it.enchapa||0) * EMPAQUE_CHAPACINTA_MM
+  }));
+  // La caja usa como footprint (piso) el ITEM con mayor área — todo lo demás
+  // se acomoda dentro de esa huella, apilado por encima.
+  const itemsOrdenados = itemsAj.slice().sort((a,b) => (b.Laj*b.Aaj) - (a.Laj*a.Aaj));
+  const boxL = itemsOrdenados[0].Laj, boxA = itemsOrdenados[0].Aaj;
+
+  let coreH = espacioBolsa || 0;
+  const desglose = itemsOrdenados.map(it => {
+    const {piezas: piezasPorCapa, orientacion} = piezasPorCapaGrid(boxL, boxA, it.Laj, it.Aaj, it.veta);
+    if(!piezasPorCapa){
+      return {item: it, error: true, piezasPorCapa: 0, capas: 0, huecosUltimaCapa: 0, orientacion: '—'};
+    }
+    const capas = Math.ceil(it.cant / piezasPorCapa);
+    const huecosUltimaCapa = (capas * piezasPorCapa) - it.cant;
+    coreH += capas * SHEET_THICKNESS_MM;
+    return {item: it, piezasPorCapa, orientacion, capas, huecosUltimaCapa, error: false};
+  });
+
+  const resultado = calcularCajaFinalDesdeCoreH(coreH, boxL, boxA, proteccionSet, extra);
+  return {boxL, boxA, desglose, resultado, coreH};
+}
+
+// Dibuja el sándwich: PLANTA (footprint de la caja + rejilla del ITEM base,
+// el más grande) y CORTE LATERAL (una franja de color por ITEM, en el orden
+// en que quedan apiladas, del más grande hasta abajo al más chico arriba).
+const EMPAQUE_PALETA_ITEMS = ['#d9a441','#7fae6f','#6f9bd9','#c97a9e','#c9843a','#8ac9c2','#b98ad9','#c2c25a'];
+function buildEmpaqueCombinadoDiagramSVG(boxL, boxA, desglose, resultado, espacioBolsa){
+  const scale = 200 / Math.max(resultado.cajaL, resultado.cajaA, resultado.cajaH);
+  const g = EMPAQUE_UNICEL_GROSOR_MM;
+  const ox = 20, oy1 = 34;
+
+  // ----- PLANTA: footprint de la caja + rejilla del ITEM base (más grande) -----
+  const plantaW = resultado.cajaL * scale, plantaH = resultado.cajaA * scale;
+  let plantaSvg = `<rect x="${ox}" y="${oy1}" width="${plantaW}" height="${plantaH}" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 2"/>`;
+  const base = desglose[0];
+  const wallPx = resultado.usaUnicel ? g*scale : 0;
+  if(resultado.usaUnicel){
+    plantaSvg += `<rect x="${ox+wallPx}" y="${oy1+wallPx}" width="${plantaW-2*wallPx}" height="${plantaH-2*wallPx}" fill="#8fb0d9" fill-opacity="0.2" stroke="#8fb0d9" stroke-width="1"/>`;
+  }
+  if(base && !base.error){
+    const rotada = base.orientacion.includes('rotada');
+    const pl = (rotada ? base.item.Aaj : base.item.Laj) * scale;
+    const pa = (rotada ? base.item.Laj : base.item.Aaj) * scale;
+    const cols = Math.floor((plantaW - 2*wallPx) / pl), rows = Math.floor((plantaH - 2*wallPx) / pa);
+    for(let r=0; r<rows; r++){
+      for(let c=0; c<cols; c++){
+        const color = EMPAQUE_PALETA_ITEMS[0];
+        plantaSvg += `<rect x="${ox+wallPx+c*pl+1}" y="${oy1+wallPx+r*pa+1}" width="${pl-2}" height="${pa-2}" fill="${color}" fill-opacity="0.75" stroke="${color}"/>`;
+      }
+    }
+  }
+  plantaSvg += `<text x="${ox}" y="${oy1-10}" fill="var(--text-dim)" font-size="10" font-family="IBM Plex Mono, monospace">PLANTA — capa base: ITEM ${base ? base.item.name : '?'}</text>`;
+  plantaSvg += `<text x="${ox}" y="${oy1+plantaH+16}" fill="var(--amber)" font-size="10" font-family="IBM Plex Mono, monospace">${resultado.cajaL} × ${resultado.cajaA} mm</text>`;
+
+  // ----- CORTE LATERAL: una franja por ITEM, apiladas en orden -----
+  const oy2 = oy1 + plantaH + 50;
+  const corteW = resultado.cajaL * scale, corteH = resultado.cajaH * scale;
+  let corteSvg = `<rect x="${ox}" y="${oy2}" width="${corteW}" height="${corteH}" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 2"/>`;
+  let cursorY = oy2;
+  let leyenda = '';
+  if(resultado.usaUnicel){
+    corteSvg += `<rect x="${ox}" y="${cursorY}" width="${corteW}" height="${wallPx}" fill="#8fb0d9" fill-opacity="0.5" stroke="#8fb0d9"/>`;
+    cursorY += wallPx;
+  }
+  desglose.forEach((d, i) => {
+    if(d.error) return;
+    const alturaPx = Math.max(1, d.capas * SHEET_THICKNESS_MM * scale);
+    const color = EMPAQUE_PALETA_ITEMS[i % EMPAQUE_PALETA_ITEMS.length];
+    corteSvg += `<rect x="${ox}" y="${cursorY}" width="${corteW}" height="${alturaPx}" fill="${color}" fill-opacity="0.75" stroke="${color}"/>`;
+    corteSvg += `<text x="${ox+corteW+6}" y="${cursorY+alturaPx/2+3}" fill="${color}" font-size="8">ITEM ${d.item.name}${d.huecosUltimaCapa>0 ? ` (${d.huecosUltimaCapa} hueco${d.huecosUltimaCapa===1?'':'s'})` : ''}</text>`;
+    leyenda += `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:14px;"><span style="display:inline-block;width:10px;height:10px;background:${color};border-radius:2px;"></span>ITEM ${d.item.name}</span>`;
+    cursorY += alturaPx;
+  });
+  if(espacioBolsa){
+    const bolsaPx = espacioBolsa * scale;
+    corteSvg += `<rect x="${ox}" y="${cursorY}" width="${corteW}" height="${bolsaPx}" fill="#c98a3a" fill-opacity="0.4" stroke="#c98a3a"/>`;
+    corteSvg += `<text x="${ox+corteW+6}" y="${cursorY+bolsaPx/2+3}" fill="#c98a3a" font-size="8">Bolsa</text>`;
+    cursorY += bolsaPx;
+  }
+  if(resultado.usaUnicel){
+    corteSvg += `<rect x="${ox}" y="${cursorY}" width="${corteW}" height="${wallPx}" fill="#8fb0d9" fill-opacity="0.5" stroke="#8fb0d9"/>`;
+  }
+  corteSvg += `<text x="${ox}" y="${oy2-10}" fill="var(--text-dim)" font-size="10" font-family="IBM Plex Mono, monospace">CORTE LATERAL — sándwich (más grande abajo)</text>`;
+  corteSvg += `<text x="${ox}" y="${oy2+corteH+16}" fill="var(--amber)" font-size="10" font-family="IBM Plex Mono, monospace">Alto: ${resultado.cajaH} mm</text>`;
+
+  const totalH = oy2 + corteH + 30;
+  return {
+    svg: `<svg viewBox="0 0 320 ${totalH}" width="100%" data-basewidth="340" style="max-width:340px;display:block;background:var(--bg-card);border-radius:6px;padding:6px;">${plantaSvg}${corteSvg}</svg>`,
+    leyenda
+  };
+}
+
+function buildEmpaqueDiagramSVG(L, A, nCamas, espacioBolsa, resultado){
+  const scale = 160 / Math.max(resultado.cajaL, resultado.cajaA, resultado.cajaH);
+  const g = EMPAQUE_UNICEL_GROSOR_MM;
+  const t = EMPAQUE_TOLERANCIA_MM;
+
+  // ----- Vista de planta (L x A) -----
+  const plantaW = resultado.cajaL * scale, plantaH = resultado.cajaA * scale;
+  const ox1 = 20, oy1 = 30;
+  let plantaSvg = `<rect x="${ox1}" y="${oy1}" width="${plantaW}" height="${plantaH}" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 2"/>`;
+  if(resultado.usaUnicel){
+    const wallPx = g * scale;
+    plantaSvg += `<rect x="${ox1+wallPx}" y="${oy1+wallPx}" width="${plantaW-2*wallPx}" height="${plantaH-2*wallPx}" fill="#8fb0d9" fill-opacity="0.25" stroke="#8fb0d9" stroke-width="1"/>`;
+    const pieceW = L*scale, pieceH = A*scale;
+    plantaSvg += `<rect x="${ox1+(plantaW-pieceW)/2}" y="${oy1+(plantaH-pieceH)/2}" width="${pieceW}" height="${pieceH}" fill="var(--piece)" stroke="var(--piece-edge)" stroke-width="1"/>`;
+  } else {
+    const pieceW = L*scale, pieceH = A*scale;
+    plantaSvg += `<rect x="${ox1+(plantaW-pieceW)/2}" y="${oy1+(plantaH-pieceH)/2}" width="${pieceW}" height="${pieceH}" fill="var(--piece)" stroke="var(--piece-edge)" stroke-width="1"/>`;
+  }
+  plantaSvg += `<text x="${ox1}" y="${oy1-8}" fill="var(--text-dim)" font-size="10" font-family="IBM Plex Mono, monospace">PLANTA (L × A)</text>`;
+  plantaSvg += `<text x="${ox1}" y="${oy1+plantaH+16}" fill="var(--amber)" font-size="10" font-family="IBM Plex Mono, monospace">${resultado.cajaL} × ${resultado.cajaA} mm</text>`;
+
+  // ----- Vista de corte lateral (L x H, con las camas apiladas) -----
+  const oy2 = oy1 + plantaH + 50;
+  const corteW = resultado.cajaL * scale, corteH = resultado.cajaH * scale;
+  let corteSvg = `<rect x="${ox1}" y="${oy2}" width="${corteW}" height="${corteH}" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 2"/>`;
+  let cursorY = oy2;
+  if(resultado.usaUnicel){
+    const wallPx = g * scale;
+    corteSvg += `<rect x="${ox1}" y="${cursorY}" width="${corteW}" height="${wallPx}" fill="#8fb0d9" fill-opacity="0.5" stroke="#8fb0d9"/>`; // tapa
+    corteSvg += `<text x="${ox1+corteW+6}" y="${cursorY+wallPx/2+3}" fill="#8fb0d9" font-size="8">Tapa</text>`;
+    cursorY += wallPx;
+  }
+  if(espacioBolsa){
+    const bolsaPx = espacioBolsa * scale;
+    corteSvg += `<rect x="${ox1}" y="${cursorY}" width="${corteW}" height="${bolsaPx}" fill="#c98a3a" fill-opacity="0.4" stroke="#c98a3a"/>`;
+    corteSvg += `<text x="${ox1+corteW+6}" y="${cursorY+bolsaPx/2+3}" fill="#c98a3a" font-size="8">Bolsa</text>`;
+    cursorY += bolsaPx;
+  }
+  const camaPx = Math.max(1, SHEET_THICKNESS_MM * scale);
+  for(let i=0; i<nCamas; i++){
+    corteSvg += `<rect x="${ox1}" y="${cursorY}" width="${corteW}" height="${camaPx}" fill="var(--piece)" stroke="var(--piece-edge)" stroke-width="0.5"/>`;
+    cursorY += camaPx;
+  }
+  if(resultado.usaUnicel){
+    const wallPx = g * scale;
+    corteSvg += `<rect x="${ox1}" y="${cursorY}" width="${corteW}" height="${wallPx}" fill="#8fb0d9" fill-opacity="0.5" stroke="#8fb0d9"/>`; // piso
+    corteSvg += `<text x="${ox1+corteW+6}" y="${cursorY+wallPx/2+3}" fill="#8fb0d9" font-size="8">Piso</text>`;
+  }
+  corteSvg += `<text x="${ox1}" y="${oy2-8}" fill="var(--text-dim)" font-size="10" font-family="IBM Plex Mono, monospace">CORTE LATERAL (${nCamas} cama${nCamas===1?'':'s'})</text>`;
+  corteSvg += `<text x="${ox1}" y="${oy2+corteH+16}" fill="var(--amber)" font-size="10" font-family="IBM Plex Mono, monospace">Alto: ${resultado.cajaH} mm</text>`;
+
+  const totalH = oy2 + corteH + 30;
+  return `<svg viewBox="0 0 320 ${totalH}" width="100%" data-basewidth="340" style="max-width:340px;display:block;background:var(--bg-card);border-radius:6px;padding:6px;">
+    ${plantaSvg}
+    ${corteSvg}
+  </svg>`;
+}
+
+// SKU de esquineros recordado por tamaño (mm) — si ya lo capturaste una vez
+// para ese tamaño (en cualquier modelo), no se vuelve a preguntar.
+async function loadSkuEsquinerosPorTamano(){
+  if(USE_SERVER){
+    try{
+      const list = await apiListData('sku_esquineros');
+      const map = {};
+      list.forEach(r => { map[r.clave] = r.valor; });
+      return map;
+    } catch(e){ return {}; }
+  }
+  try{ return JSON.parse(localStorage.getItem('mdf_sku_esquineros_v1') || '{}'); }
+  catch(e){ return {}; }
+}
+async function saveSkuEsquinerosPorTamano(tamano, sku){
+  if(USE_SERVER){
+    try{ await apiSaveData('sku_esquineros', String(tamano), sku); return true; }
+    catch(e){ return false; }
+  }
+  try{
+    const map = JSON.parse(localStorage.getItem('mdf_sku_esquineros_v1') || '{}');
+    map[tamano] = sku;
+    localStorage.setItem('mdf_sku_esquineros_v1', JSON.stringify(map));
+    return true;
+  } catch(e){ return false; }
+}
+
+// Información completa de empaque (tamaño de caja + SKU de caja/unicel/
+// esquineros), recordada por las medidas exactas de la caja final — así,
+// si otro ITEM (o modelo) da exactamente la misma caja, se recuerda todo.
+async function loadEmpaqueInfoPorTamano(){
+  if(USE_SERVER){
+    try{
+      const list = await apiListData('empaque_info');
+      const map = {};
+      list.forEach(r => { map[r.clave] = r.valor; });
+      return map;
+    } catch(e){ return {}; }
+  }
+  try{ return JSON.parse(localStorage.getItem('mdf_empaque_info_v1') || '{}'); }
+  catch(e){ return {}; }
+}
+async function saveEmpaqueInfoPorTamano(clave, valor){
+  if(USE_SERVER){
+    try{ await apiSaveData('empaque_info', clave, valor); return true; }
+    catch(e){ return false; }
+  }
+  try{
+    const map = JSON.parse(localStorage.getItem('mdf_empaque_info_v1') || '{}');
+    map[clave] = valor;
+    localStorage.setItem('mdf_empaque_info_v1', JSON.stringify(map));
+    return true;
+  } catch(e){ return false; }
+}
+
+async function mostrarPropuestaEmpaque(modelo, proteccionSet, espacioBolsa, extra, skus){
+  cmaHideAll();
+  document.getElementById('cajasEmpaquePropuestaView').style.display = '';
+  const panel = document.getElementById('cajasEmpaquePropuestaPanel');
+  panel.innerHTML = '<div class="note">Cargando…</div>';
+
+  let items;
+  if(USE_SERVER){
+    try{ const data = await apiGetModel(modelo); items = data.items; }
+    catch(e){ panel.innerHTML = '<div class="note" style="color:var(--err);">No se pudo cargar el modelo.</div>'; return; }
+  } else {
+    const models = loadModelsFromStorage();
+    if(!models[modelo]){ panel.innerHTML = '<div class="note" style="color:var(--err);">No se encontró el modelo.</div>'; return; }
+    items = models[modelo].items;
+  }
+  if(!Array.isArray(items) || !items.length){
+    panel.innerHTML = `<div class="note" style="color:var(--err);">El modelo "${modelo}" no tiene ningún ITEM capturado.</div>`;
+    return;
+  }
+
+  const skuEsquinerosMap = await loadSkuEsquinerosPorTamano();
+  const empaqueInfoMap = await loadEmpaqueInfoPorTamano();
+  const merged = mergeItemsBySize(items);
+
+  // ===== Propuesta combinada: todos los ITEMs en 1 sola caja =====
+  let combinadaHtml = '';
+  if(merged.length > 1){
+    const combinada = calcularPropuestaCombinada(merged, espacioBolsa, proteccionSet, extra);
+    const conError = combinada.desglose.filter(d => d.error);
+    const filasDesglose = combinada.desglose.map(d => {
+      if(d.error){
+        return `<tr><td>ITEM ${d.item.name}</td><td colspan="4" style="color:var(--err);">No cabe ni una sola pieza en el footprint de la caja (${combinada.boxL}×${combinada.boxA}mm) — necesita ir en caja aparte.</td></tr>`;
+      }
+      return `<tr>
+        <td>ITEM ${d.item.name}</td>
+        <td>${d.piezasPorCapa} (${d.orientacion})</td>
+        <td>${d.capas}</td>
+        <td>${d.item.cant}</td>
+        <td>${d.huecosUltimaCapa > 0 ? `${d.huecosUltimaCapa} hueco(s) libres en la última capa` : 'Sin huecos — capas exactas'}</td>
+      </tr>`;
+    }).join('');
+
+    const {svg: diagramaSvg, leyenda} = buildEmpaqueCombinadoDiagramSVG(combinada.boxL, combinada.boxA, combinada.desglose, combinada.resultado, espacioBolsa);
+
+    combinadaHtml = `
+      <div class="corte-card" style="margin-bottom:24px;border-color:var(--amber);">
+        <div class="corte-head"><div class="name">📦 Propuesta combinada — todos los ITEMs en 1 caja</div></div>
+        <div class="corte-body">
+          <div class="note" style="margin-bottom:10px;">El footprint de la caja lo define el ITEM más grande (ITEM ${combinada.desglose[0] ? combinada.desglose[0].item.name : '?'}, ${combinada.boxL}×${combinada.boxA}mm). Los demás ITEMs se acomodan en capas dentro de esa misma huella, apilados en sándwich: el más grande hasta abajo.</div>
+          <div style="margin-bottom:10px;">${leyenda}</div>
+          <div class="empaque-plano-wrap">
+            <div class="plano-controls" style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+              <button class="ghost empaque-zoom-out" type="button" style="padding:6px 14px;font-size:16px;">−</button>
+              <span class="note empaque-zoom-label" style="margin:0;min-width:44px;text-align:center;">100%</span>
+              <button class="ghost empaque-zoom-in" type="button" style="padding:6px 14px;font-size:16px;">+</button>
+            </div>
+            <div class="empaque-plano-scroll" style="overflow:auto;max-height:520px;border:1px solid var(--line);border-radius:6px;padding:6px;">
+              ${diagramaSvg}
+            </div>
+          </div>
+          <table class="corte-table" style="margin:14px 0;">
+            <thead><tr><th>ITEM</th><th>Piezas por capa</th><th>Capas</th><th>Piezas necesarias</th><th>Huecos</th></tr></thead>
+            <tbody>${filasDesglose}</tbody>
+          </table>
+          ${conError.length ? `<div class="note" style="color:var(--err);margin-bottom:10px;">⚠️ ${conError.length} ITEM(s) no caben en esta caja combinada y necesitan su propia caja aparte (ver la propuesta por ITEM más abajo).</div>` : ''}
+          <div class="note" style="margin-bottom:4px;font-weight:700;color:var(--text);">Caja combinada final sugerida:</div>
+          <div class="manual-big" style="font-size:24px;${combinada.resultado.excedeLimite ? 'color:var(--err);' : ''}">${combinada.resultado.cajaL} × ${combinada.resultado.cajaA} × ${combinada.resultado.cajaH} mm</div>
+          ${combinada.resultado.excedeLimite ? `<div class="note" style="color:var(--err);margin-top:6px;">⚠️ Esta caja se pasa del límite de ${EMPAQUE_LADO_MAX_MM}mm en algún lado — no es viable combinarlos todos así, considera separar en más de una caja.</div>` : ''}
+        </div>
+      </div>`;
+  }
+
+  let bloquesHtml = '';
+
+  merged.forEach(it => {
+    // La chapacinta suma 0.5mm por cada lado enchapado a esa medida.
+    const Laj = it.L + (it.enchapl||0) * EMPAQUE_CHAPACINTA_MM;
+    const Aaj = it.A + (it.enchapa||0) * EMPAQUE_CHAPACINTA_MM;
+
+    if(Laj > EMPAQUE_LADO_MAX_MM || Aaj > EMPAQUE_LADO_MAX_MM){
+      bloquesHtml += `
+        <div class="cma-paso alerta" style="margin-bottom:20px;">
+          <div class="cma-paso-texto">ITEM ${it.name}: la pieza mide ${Laj} × ${Aaj}mm (ya con chapacinta) — un lado se pasa de ${EMPAQUE_LADO_MAX_MM}mm. Esta pieza no cabe en una caja sencilla, necesita una solución aparte (empaque especial o entrega sin caja).</div>
+        </div>`;
+      return;
+    }
+
+    const cant = it.cant || 1;
+    // Cuántas camas caben en una sola caja sin pasarse del límite de 1200mm.
+    let maxCamas = cant;
+    while(maxCamas > 1 && calcularCajaParaCamas(maxCamas, Laj, Aaj, espacioBolsa, proteccionSet, extra).excedeLimite){
+      maxCamas--;
+    }
+    const resultado = calcularCajaParaCamas(maxCamas, Laj, Aaj, espacioBolsa, proteccionSet, extra);
+    const numCajas = Math.ceil(cant / maxCamas);
+
+    // Si ya guardamos antes info de una caja con estas medidas exactas,
+    // se recuerdan sus 3 SKUs (a menos que hayas escrito uno nuevo arriba).
+    const claveTamanoCaja = `${resultado.cajaL}x${resultado.cajaA}x${resultado.cajaH}`;
+    const infoGuardada = empaqueInfoMap[claveTamanoCaja] || {};
+    const skuCajaFinal = (skus && skus.caja) || infoGuardada.skuCaja || '';
+    const skuUnicelFinal = (skus && skus.unicel) || infoGuardada.skuUnicel || '';
+
+    const unicelTabla = resultado.unicelPzs ? `
+      <div class="note" style="margin:12px 0 6px;font-weight:700;color:var(--text);">Piezas de unicel (3 pares, ${EMPAQUE_UNICEL_GROSOR_MM}mm de grosor cada una)${skuUnicelFinal ? ` — SKU: <b style="color:var(--amber);">${skuUnicelFinal}</b> (las 6 piezas comparten el mismo SKU)` : ''}:</div>
+      <table class="corte-table" style="margin-bottom:12px;">
+        <thead><tr><th>Pieza</th><th>Medida</th></tr></thead>
+        <tbody>${resultado.unicelPzs.map(p => `<tr><td>${p.nombre}</td><td>${p.medida}</td></tr>`).join('')}</tbody>
+      </table>
+      <div class="note" style="margin-bottom:12px;">Arma primero Piso + las 4 paredes (5 de las 6 piezas) — las paredes llegan hasta el piso, así se paran solas y quedan prearmadas. Mete la pieza y cierra al final con la Tapa (la 6ta).</div>
+    ` : '';
+    const esquineroTamano = resultado.usaEsquineros ? Math.ceil(resultado.cajaH / 10) * 10 : null;
+    const skuEsquineroFinal = (esquineroTamano ? skuEsquinerosMap[esquineroTamano] : null) || infoGuardada.skuEsquineros || '';
+    let esquinerosTexto = '';
+    if(resultado.usaEsquineros){
+      if(skuEsquineroFinal){
+        esquinerosTexto = `<div class="note" style="margin-bottom:12px;">También lleva <b style="color:var(--amber);">esquineros de ${esquineroTamano}mm</b> — <b>4 piezas</b> por caja, SKU: <b style="color:var(--amber);">${skuEsquineroFinal}</b> (recordado).</div>`;
+      } else {
+        esquinerosTexto = `
+          <div class="note" style="margin-bottom:8px;">También lleva <b style="color:var(--amber);">esquineros de ${esquineroTamano}mm</b> — <b>4 piezas</b> por caja. Aún no tengo el SKU para este tamaño:</div>
+          <div class="esquinero-sku-pedir" data-tamano="${esquineroTamano}" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-bottom:12px;">
+            <div class="field" style="max-width:200px;"><label>SKU de esquineros de ${esquineroTamano}mm</label><input type="text" class="esquinero-sku-input" placeholder="Ej. ESQ-${esquineroTamano}MM"></div>
+            <button class="ghost esquinero-sku-guardar-btn" type="button">💾 Guardar (se recuerda para próxima vez)</button>
+          </div>`;
+      }
+    }
+    const skuCajaTexto = skuCajaFinal ? `<div class="note" style="margin-bottom:12px;">SKU de la caja: <b style="color:var(--amber);">${skuCajaFinal}</b>${infoGuardada.skuCaja && !(skus && skus.caja) ? ' (recordado)' : ''}</div>` : '';
+
+    bloquesHtml += `
+      <div class="corte-card" style="margin-bottom:20px;">
+        <div class="corte-head"><div class="name">ITEM ${it.name}${it.desc ? ` — ${it.desc}` : ''}</div></div>
+        <div class="corte-body">
+          <div class="note" style="margin-bottom:6px;">Cama: ${Laj} × ${Aaj}mm (pieza ${it.L}×${it.A}mm + chapacinta), grosor de ${SHEET_THICKNESS_MM}mm por pieza${espacioBolsa ? ` + ${espacioBolsa}mm reservados para la bolsa de tornillos` : ''}.</div>
+          <div class="manual-big" style="font-size:20px;margin-bottom:10px;">${maxCamas} pieza(s) apiladas por caja${numCajas>1 ? ` — se necesitan ${numCajas} cajas para las ${cant} piezas totales` : ''}</div>
+          <div class="empaque-plano-wrap">
+            <div class="plano-controls" style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+              <button class="ghost empaque-zoom-out" type="button" style="padding:6px 14px;font-size:16px;">−</button>
+              <span class="note empaque-zoom-label" style="margin:0;min-width:44px;text-align:center;">100%</span>
+              <button class="ghost empaque-zoom-in" type="button" style="padding:6px 14px;font-size:16px;">+</button>
+            </div>
+            <div class="empaque-plano-scroll" style="overflow:auto;max-height:520px;border:1px solid var(--line);border-radius:6px;padding:6px;">
+              ${buildEmpaqueDiagramSVG(Laj, Aaj, maxCamas, espacioBolsa, resultado)}
+            </div>
+          </div>
+          ${unicelTabla}
+          ${esquinerosTexto}
+          <div class="note" style="margin-bottom:4px;font-weight:700;color:var(--text);">Caja final sugerida (ya con protección y ${EMPAQUE_TOLERANCIA_MM}mm de tolerancia por lado):</div>
+          <div class="manual-big" style="font-size:24px;margin-bottom:8px;">${resultado.cajaL} × ${resultado.cajaA} × ${resultado.cajaH} mm</div>
+          ${skuCajaTexto}
+          <div class="actions" style="margin-top:10px;">
+            <button class="ghost empaque-guardar-info-btn" type="button"
+              data-clave-tamano="${claveTamanoCaja}"
+              data-esquinero-tamano="${esquineroTamano || ''}"
+              data-sku-caja="${skuCajaFinal}"
+              data-sku-unicel="${skuUnicelFinal}"
+              data-sku-esquineros="${skuEsquineroFinal}">💾 Guardar información de esta caja</button>
+          </div>
+          <div class="note empaque-guardar-info-note"></div>
+        </div>
+      </div>`;
+  });
+
+  const proteccionTexto = [...proteccionSet].map(p => EMPAQUE_PROTECCION_LABEL[p]).join(' + ') || 'Nada';
+  const extraPartes = [];
+  if(extra && extra.L) extraPartes.push(`+${extra.L}mm en Largo`);
+  if(extra && extra.A) extraPartes.push(`+${extra.A}mm en Ancho`);
+  if(extra && extra.H) extraPartes.push(`+${extra.H}mm en Alto`);
+  panel.innerHTML = `
+    <h2>📦 Propuesta de empaque — ${modelo}</h2>
+    <div class="note" style="margin-bottom:20px;">Protección elegida: <b style="color:var(--amber);">${proteccionTexto}</b>${espacioBolsa ? ` · Espacio para bolsa de tornillos: <b style="color:var(--amber);">${espacioBolsa}mm</b>` : ''}${extraPartes.length ? ` · Espacio extra: <b style="color:var(--amber);">${extraPartes.join(', ')}</b>` : ''} · Ningún lado de caja puede pasar de ${EMPAQUE_LADO_MAX_MM}mm.</div>
+    ${combinadaHtml}
+    <div class="note" style="margin-bottom:6px;font-weight:700;color:var(--text);">Propuesta por separado (una caja por ITEM):</div>
+    ${bloquesHtml}
+  `;
+
+  // Controles de zoom (+ / −), uno independiente por cada plano de ITEM.
+  panel.querySelectorAll('.empaque-plano-wrap').forEach(wrap => {
+    const svgEl = wrap.querySelector('svg');
+    const zoomLabel = wrap.querySelector('.empaque-zoom-label');
+    let zoom = 1;
+    function applyZoom(){
+      const base = parseFloat(svgEl.dataset.basewidth) || 340;
+      svgEl.style.maxWidth = 'none';
+      svgEl.style.width = (base*zoom) + 'px';
+      zoomLabel.textContent = Math.round(zoom*100) + '%';
+    }
+    applyZoom();
+    wrap.querySelector('.empaque-zoom-in').addEventListener('click', () => {
+      zoom = Math.min(4, zoom + 0.25);
+      applyZoom();
+    });
+    wrap.querySelector('.empaque-zoom-out').addEventListener('click', () => {
+      zoom = Math.max(0.5, zoom - 0.25);
+      applyZoom();
+    });
+  });
+
+  // Botón para guardar el SKU de esquineros de un tamaño que todavía no conocíamos.
+  panel.querySelectorAll('.esquinero-sku-pedir').forEach(wrap => {
+    const tamano = wrap.dataset.tamano;
+    wrap.querySelector('.esquinero-sku-guardar-btn').addEventListener('click', async () => {
+      const input = wrap.querySelector('.esquinero-sku-input');
+      const sku = input.value.trim();
+      if(!sku){ alert('Escribe el SKU antes de guardar.'); return; }
+      const ok = await saveSkuEsquinerosPorTamano(tamano, sku);
+      if(!ok){ alert('No se pudo guardar (revisa tu conexión).'); return; }
+      // Vuelve a mostrar la propuesta completa para que ya aparezca recordado.
+      mostrarPropuestaEmpaque(modelo, proteccionSet, espacioBolsa, extra, skus);
+    });
+  });
+
+  // Botón para guardar, juntos, el tamaño de caja + SKU de caja/unicel/esquineros.
+  panel.querySelectorAll('.empaque-guardar-info-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const card = btn.closest('.corte-card');
+      const noteEl = card.querySelector('.empaque-guardar-info-note');
+      const claveTamano = btn.dataset.claveTamano;
+      // Si el ITEM todavía no tenía SKU de esquineros guardado, toma lo que
+      // se haya escrito en ese campo (si sigue visible) en vez del data-attr vacío.
+      const esquineroInput = card.querySelector('.esquinero-sku-input');
+      const skuEsquineros = (esquineroInput && esquineroInput.value.trim()) || btn.dataset.skuEsquineros || '';
+      const valor = {
+        skuCaja: btn.dataset.skuCaja || '',
+        skuUnicel: btn.dataset.skuUnicel || '',
+        skuEsquineros
+      };
+      const ok = await saveEmpaqueInfoPorTamano(claveTamano, valor);
+      if(!ok){
+        noteEl.style.color = 'var(--err)';
+        noteEl.textContent = 'No se pudo guardar (revisa tu conexión).';
+        return;
+      }
+      // Si también había un tamaño de esquinero sin guardar, lo guarda ahí también.
+      if(btn.dataset.esquineroTamano && skuEsquineros){
+        await saveSkuEsquinerosPorTamano(btn.dataset.esquineroTamano, skuEsquineros);
+      }
+      noteEl.style.color = 'var(--ok)';
+      noteEl.textContent = 'Guardado — la próxima vez que salga una caja de este tamaño, se recuerda solo.';
+    });
+  });
+}
+
+// ===== Planes de trabajo diario para los equipos =====
+function showPlanesEquipos(){
+  cmaHideAll();
+  document.getElementById('planesEquiposView').style.display = '';
+}
+document.getElementById('btnGoPlanesTrabajoDiario').addEventListener('click', showPlanesEquipos);
+document.getElementById('backFromPlanesEquipos').addEventListener('click', showHomeChoice);
+document.getElementById('backFromPlanesCola').addEventListener('click', showPlanesEquipos);
+
+document.querySelectorAll('.planes-equipo-btn').forEach(btn => {
+  btn.addEventListener('click', () => showPlanesCola(btn.dataset.equipo));
+});
+
+let planesColaDragIdx = null;
+
+async function showPlanesCola(equipo){
+  cmaHideAll();
+  document.getElementById('planesColaView').style.display = '';
+  document.getElementById('planesColaTitle').textContent = `Cola de trabajo — ${equipo}`;
+  const listWrap = document.getElementById('planesColaList');
+  const noteEl = document.getElementById('planesColaNote');
+  listWrap.innerHTML = '<div class="note">Cargando…</div>';
+  noteEl.textContent = '';
+
+  const cola = await loadColaTrabajo();
+  let entradas = Object.keys(cola)
+    .map(clave => ({clave, valor: cola[clave]}))
+    .filter(e => e.valor.equipo === equipo)
+    .sort((a,b) => (a.valor.prioridad||0) - (b.valor.prioridad||0));
+
+  if(!entradas.length){
+    listWrap.innerHTML = `<div class="note">No hay nada en cola para ${equipo} todavía. Ponlos en cola desde "Administrar Órdenes de producción → Ver Estatus por ITEM".</div>`;
+    return;
+  }
+
+  // Tiempo estimado: solo Enchapado lo calcula hoy (con la Tabla de Tiempos).
+  // Los demás equipos muestran "—" hasta que tengan su propia tabla.
+  let tablaTiempos = {};
+  if(equipo === 'Enchapado'){ tablaTiempos = await loadTiemposEnchapado(); }
+
+  function tiempoEstimadoTexto(v){
+    if(equipo !== 'Enchapado') return '—';
+    const velLargo = buscarPiezasPorHora(tablaTiempos, v.L) || 0;
+    const velCorto = buscarPiezasPorHora(tablaTiempos, v.A) || 0;
+    const tieneVel = (v.enchapl > 0 ? velLargo > 0 : true) && (v.enchapa > 0 ? velCorto > 0 : true);
+    if(!tieneVel) return 'Sin datos en Tabla de Tiempos';
+    const minPorPieza = (v.enchapl > 0 && velLargo > 0 ? v.enchapl / velLargo : 0) + (v.enchapa > 0 && velCorto > 0 ? v.enchapa / velCorto : 0);
+    const seg = Math.round(minPorPieza * v.piezas * 60);
+    return fmtHMS(seg);
+  }
+
+  function renderLista(){
+    listWrap.innerHTML = entradas.map((e, i) => `
+      <div class="corte-card planes-cola-item" draggable="true" data-idx="${i}" style="margin-bottom:10px;cursor:grab;">
+        <div class="corte-head">
+          <div class="name">#${i+1} — Orden #${e.valor.consecutivo} · ${e.valor.modelo}${e.valor.opOc ? ` · OP/OC: ${e.valor.opOc}` : ''}</div>
+        </div>
+        <div class="corte-body" style="padding-top:10px;">
+          <div>ITEM ${e.valor.itemName} — ${e.valor.etiqueta} — Color: <b>${e.valor.color}</b></div>
+          <div class="note" style="margin:4px 0;">${e.valor.piezas} piezas — ${e.valor.L}×${e.valor.A}mm</div>
+          <div class="manual-big" style="font-size:18px;color:var(--amber);">⏱️ ${tiempoEstimadoTexto(e.valor)}</div>
+          <div class="actions" style="margin-top:8px;margin-bottom:0;">
+            <button class="ghost planes-cola-quitar-btn" type="button" data-clave="${e.clave}" style="color:var(--err);border-color:var(--err);">🗑️ Quitar de la cola</button>
+          </div>
+        </div>
+      </div>`).join('');
+
+    listWrap.querySelectorAll('.planes-cola-item').forEach(card => {
+      card.addEventListener('dragstart', () => { planesColaDragIdx = parseInt(card.dataset.idx, 10); card.style.opacity = '.4'; });
+      card.addEventListener('dragend', () => { card.style.opacity = '1'; });
+      card.addEventListener('dragover', (ev) => ev.preventDefault());
+      card.addEventListener('drop', async (ev) => {
+        ev.preventDefault();
+        const targetIdx = parseInt(card.dataset.idx, 10);
+        if(planesColaDragIdx === null || planesColaDragIdx === targetIdx) return;
+        const [moved] = entradas.splice(planesColaDragIdx, 1);
+        entradas.splice(targetIdx, 0, moved);
+        planesColaDragIdx = null;
+        // Reasigna prioridades 1,2,3... según el nuevo orden, y guarda.
+        entradas.forEach((e, i) => { e.valor.prioridad = i + 1; });
+        renderLista();
+        const ok = await guardarPrioridadesColaTrabajo(entradas);
+        noteEl.style.color = ok ? 'var(--ok)' : 'var(--err)';
+        noteEl.textContent = ok ? 'Orden guardado.' : 'No se pudo guardar el nuevo orden (revisa tu conexión).';
+      });
+    });
+
+    listWrap.querySelectorAll('.planes-cola-quitar-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const ok = await quitarDeColaTrabajo(btn.dataset.clave);
+        if(!ok){ alert('No se pudo quitar (revisa tu conexión).'); return; }
+        entradas = entradas.filter(e => e.clave !== btn.dataset.clave);
+        entradas.forEach((e, i) => { e.valor.prioridad = i + 1; });
+        await guardarPrioridadesColaTrabajo(entradas);
+        if(!entradas.length){
+          listWrap.innerHTML = `<div class="note">No hay nada en cola para ${equipo} todavía.</div>`;
+        } else {
+          renderLista();
+        }
+      });
+    });
+  }
+  renderLista();
+}
+
+// ===== Entrega de Ítems =====
+// Un ITEM+color está "listo para entregar" cuando TODOS los pasos de su
+// Ruta de Proceso están en 'terminado' (Enchapado desde su bitácora real,
+// los demás desde lo que el supervisor marcó a mano) y todavía no se ha
+// registrado su entrega.
+async function loadEntregasItem(){
+  let rows;
+  if(USE_SERVER){
+    try{ rows = await apiListData('entrega_item'); } catch(e){ rows = []; }
+  } else {
+    try{
+      const map = JSON.parse(localStorage.getItem('mdf_entrega_item_v1') || '{}');
+      rows = Object.keys(map).map(clave => ({clave, valor: map[clave]}));
+    } catch(e){ rows = []; }
+  }
+  const out = {};
+  rows.forEach(r => { out[r.clave] = r.valor; });
+  return out;
+}
+function claveEntregaItem(consecutivo, itemName, color){
+  return `${consecutivo}_${itemName}_${color}`;
+}
+async function guardarEntregaItem(clave, valor){
+  if(USE_SERVER){
+    try{ await apiSaveData('entrega_item', clave, valor); return true; }
+    catch(e){ return false; }
+  }
+  try{
+    const map = JSON.parse(localStorage.getItem('mdf_entrega_item_v1') || '{}');
+    map[clave] = valor;
+    localStorage.setItem('mdf_entrega_item_v1', JSON.stringify(map));
+    return true;
+  } catch(e){ return false; }
+}
+
+function showEntregaItems(){
+  cmaHideAll();
+  document.getElementById('entregaItemsView').style.display = '';
+  renderEntregaItemsList();
+}
+document.getElementById('btnGoEntregaItems').addEventListener('click', showEntregaItems);
+document.getElementById('backFromEntregaItems').addEventListener('click', showHomeChoice);
+
+async function renderEntregaItemsList(){
+  const wrap = document.getElementById('entregaItemsList');
+  wrap.innerHTML = '<div class="note">Buscando ITEMs listos para entregar…</div>';
+
+  const [ordenes, estadosEnch, estadosManual, entregas] = await Promise.all([
+    loadOrdenes(),
+    (async () => { if(USE_SERVER){ try{ return await apiListData('bitacora_estados'); } catch(e){ return []; } } try{ const map = JSON.parse(localStorage.getItem('mdf_bitacora_estados_v1')||'{}'); return Object.keys(map).map(clave=>({clave, valor:map[clave]})); } catch(e){ return []; } })(),
+    (async () => { if(USE_SERVER){ try{ return await apiListData('estatus_manual_proceso'); } catch(e){ return []; } } try{ const map = JSON.parse(localStorage.getItem('mdf_estatus_manual_proceso_v1')||'{}'); return Object.keys(map).map(clave=>({clave, valor:map[clave]})); } catch(e){ return []; } })(),
+    loadEntregasItem()
+  ]);
+
+  const abiertas = ordenes.filter(o => !o.cerrada);
+  const modelosCache = {};
+  const pendientes = [];
+
+  for(const orden of abiertas){
+    if(!modelosCache[orden.modelo]){
+      try{
+        if(USE_SERVER){ const data = await apiGetModel(orden.modelo); modelosCache[orden.modelo] = data; }
+        else { const models = loadModelsFromStorage(); modelosCache[orden.modelo] = models[orden.modelo] || {items:[], maquinado:{}}; }
+      } catch(e){ modelosCache[orden.modelo] = {items:[], maquinado:{}}; }
+    }
+    const {items, maquinado} = modelosCache[orden.modelo];
+    if(!Array.isArray(items) || !items.length) continue;
+    const colores = orden.colores || [];
+
+    items.forEach(it => {
+      const rutaCruda = (maquinado[it.name] && maquinado[it.name].ruta) || [];
+      if(!rutaCruda.length) return;
+      const contador = {};
+      const pasos = rutaCruda.map(proc => {
+        contador[proc] = (contador[proc] || 0) + 1;
+        const totalDeEste = rutaCruda.filter(p => p === proc).length;
+        return {proc, etiqueta: totalDeEste > 1 ? `${proc} #${contador[proc]}` : proc};
+      });
+
+      colores.forEach(c => {
+        const claveEnt = claveEntregaItem(orden.consecutivo, it.name, c.color);
+        if(entregas[claveEnt]) return; // ya se entregó
+
+        const todoTerminado = pasos.every(p => {
+          if(p.proc === 'Enchapado'){
+            const clave = claveBitEstado(orden, it, c.color);
+            const match = estadosEnch.find(r => r.clave === clave);
+            return match && match.valor && match.valor.estado === 'terminado';
+          }
+          const clave = `${orden.consecutivo}_${it.name}_${p.etiqueta}_${c.color}`;
+          const match = estadosManual.find(r => r.clave === clave);
+          return match && match.valor && match.valor.estado === 'terminado';
+        });
+
+        if(todoTerminado){
+          pendientes.push({orden, item: it, color: c, claveEnt});
+        }
+      });
+    });
+  }
+
+  if(!pendientes.length){
+    wrap.innerHTML = '<div class="note">No hay ITEMs listos para entregar todavía — les falta terminar algún proceso.</div>';
+    return;
+  }
+
+  wrap.innerHTML = pendientes.map((p, i) => `
+    <div class="corte-card entrega-item-card" data-idx="${i}" style="margin-bottom:14px;">
+      <div class="corte-head">
+        <div class="name">Orden #${p.orden.consecutivo} — ${p.orden.modelo}${p.orden.opOc ? ` · OP/OC: ${p.orden.opOc}` : ''}</div>
+      </div>
+      <div class="corte-body">
+        <div>ITEM ${p.item.name}${p.item.desc ? ` — ${p.item.desc}` : ''} — Color: <b>${p.color.color}</b></div>
+        <div class="note" style="margin:4px 0 12px;">${p.item.cant * p.color.cant} piezas — todos los procesos terminados ✅</div>
+        <button class="primary entregar-item-btn" type="button">📦 Entregar ITEM</button>
+        <div class="entrega-foto-section" style="display:none;margin-top:14px;">
+          <div class="field">
+            <label>Sube la foto para entregar este ITEM</label>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+              <input type="file" accept="image/*" class="entrega-foto-input">
+              <label style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;cursor:pointer;border-radius:6px;background:transparent;border:1px solid var(--line);color:var(--text);font-size:14px;">📷 Tomar foto<input type="file" accept="image/*" capture="environment" class="entrega-foto-input-camara" style="display:none;"></label>
+            </div>
+            <div class="note entrega-foto-nota" style="margin-top:6px;"></div>
+          </div>
+          <div class="actions" style="margin-top:0;">
+            <button class="primary entrega-confirmar-btn" type="button" style="background:var(--err);border-color:var(--err);">Confirmar entrega (no se puede deshacer)</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  wrap.querySelectorAll('.entrega-item-card').forEach(card => {
+    const idx = parseInt(card.dataset.idx, 10);
+    const p = pendientes[idx];
+    const entregarBtn = card.querySelector('.entregar-item-btn');
+    const fotoSection = card.querySelector('.entrega-foto-section');
+    const fileInput = card.querySelector('.entrega-foto-input');
+    const fileInputCamara = card.querySelector('.entrega-foto-input-camara');
+    const notaEl = card.querySelector('.entrega-foto-nota');
+
+    entregarBtn.addEventListener('click', () => {
+      fotoSection.style.display = fotoSection.style.display === 'none' ? '' : 'none';
+    });
+
+    fileInput.addEventListener('change', () => {
+      if(fileInput.files[0]){
+        fileInputCamara.value = '';
+        notaEl.style.color = 'var(--ok)';
+        notaEl.textContent = `Foto elegida: ${fileInput.files[0].name}`;
+      }
+    });
+    fileInputCamara.addEventListener('change', () => {
+      if(fileInputCamara.files[0]){
+        fileInput.value = '';
+        notaEl.style.color = 'var(--ok)';
+        notaEl.textContent = '📷 Foto tomada con la cámara.';
+      }
+    });
+
+    card.querySelector('.entrega-confirmar-btn').addEventListener('click', async () => {
+      const file = (fileInputCamara.files && fileInputCamara.files[0]) || (fileInput.files && fileInput.files[0]);
+      if(!file){ alert('Sube o toma una foto antes de confirmar la entrega.'); return; }
+
+      const confirmarBtn = card.querySelector('.entrega-confirmar-btn');
+      confirmarBtn.disabled = true;
+      confirmarBtn.textContent = 'Guardando...';
+
+      let dataUrl;
+      try{ dataUrl = await comprimirImagen(file); }
+      catch(e){
+        alert('No se pudo procesar la foto. Intenta con otra imagen.');
+        confirmarBtn.disabled = false; confirmarBtn.textContent = 'Confirmar entrega (no se puede deshacer)';
+        return;
+      }
+
+      const ok = await guardarEntregaItem(p.claveEnt, {
+        foto: dataUrl,
+        fecha: new Date().toISOString(),
+        entregadoPor: 'supervisor',
+        consecutivo: p.orden.consecutivo, modelo: p.orden.modelo,
+        itemName: p.item.name, color: p.color.color
+      });
+      if(!ok){
+        alert('No se pudo guardar la entrega (revisa tu conexión). Vuelve a intentarlo.');
+        confirmarBtn.disabled = false; confirmarBtn.textContent = 'Confirmar entrega (no se puede deshacer)';
+        return;
+      }
+      renderEntregaItemsList(); // refresca la lista, este ya no debe aparecer
+    });
+  });
+}
+
 function siguienteConsecutivo(ordenes){
   return ordenes.reduce((max, o) => Math.max(max, o.consecutivo || 0), 0) + 1;
 }
@@ -2818,6 +4455,7 @@ document.getElementById('crearOrdenBtn').addEventListener('click', async () => {
   const noteEl = document.getElementById('crearOrdenNote');
   const colores = getOrdenColores();
   const fechaEntrega = document.getElementById('fechaEntregaEmpaque').value;
+  const opOc = document.getElementById('opOcInput').value.trim();
 
   if(!colores.length){
     noteEl.style.color = 'var(--err)';
@@ -2839,6 +4477,7 @@ document.getElementById('crearOrdenBtn').addEventListener('click', async () => {
     modelo: ordenModelName,
     cantidadPiezas,
     fechaEntrega,
+    opOc,
     colores
   };
   const ok = await saveOrden(orden);
@@ -2869,8 +4508,8 @@ async function renderOrdenesList(){
       </div>
       <div class="corte-body">
         <table class="corte-table" style="margin-bottom:0;">
-          <thead><tr><th>Creación</th><th>Cantidad de piezas</th><th>Entrega a empaque</th></tr></thead>
-          <tbody><tr><td>${fmtFecha(o.fechaCreacion)}</td><td>${o.cantidadPiezas}</td><td>${fmtFecha(o.fechaEntrega)}</td></tr></tbody>
+          <thead><tr><th>Creación</th><th>OP / OC</th><th>Cantidad de piezas</th><th>Entrega a empaque</th></tr></thead>
+          <tbody><tr><td>${fmtFecha(o.fechaCreacion)}</td><td>${o.opOc || '—'}</td><td>${o.cantidadPiezas}</td><td>${fmtFecha(o.fechaEntrega)}</td></tr></tbody>
         </table>
         <div class="orden-colores-detail" style="display:none;margin-top:14px;">
           <table class="corte-table">
@@ -2958,7 +4597,7 @@ function parsePastedText(text){
   const errors = [];
   lines.forEach((line, i) => {
     let cols = line.split('\t');
-    if(cols.length < 5) cols = line.split(',');
+    if(cols.length < 6) cols = line.split(',');
     cols = cols.map(c => c.trim());
     const desc = cols[0] || null;
     const name = cols[1] || null;
@@ -2966,16 +4605,26 @@ function parsePastedText(text){
     const ancho = cols.length > 3 ? parseNumber(cols[3]) : null;
     const material = cols[4] || '';
     const cant = cols.length > 5 ? parseNumber(cols[5]) : null;
-    const enchapl = cols.length > 6 ? parseEnchapado(cols[6]) : 0;
-    const enchapa = cols.length > 7 ? parseEnchapado(cols[7]) : 0;
-    const maqman = cols[8] || '';
-    const maqauto = cols[9] || '';
-    const cnc = cols[10] || '';
+    let veta = true;
+    if(cols.length > 6 && cols[6] !== ''){
+      const vetaRaw = cols[6].trim().toLowerCase();
+      if(vetaRaw === 'si' || vetaRaw === 'sí') veta = true;
+      else if(vetaRaw === 'no') veta = false;
+      else {
+        errors.push(`Renglón ${i+1} ("${line}"): "¿Respeta veta?" solo puede ser "Si" o "No" (escribiste "${cols[6]}").`);
+        return;
+      }
+    }
+    const enchapl = cols.length > 7 ? parseEnchapado(cols[7]) : 0;
+    const enchapa = cols.length > 8 ? parseEnchapado(cols[8]) : 0;
+    const maqman = cols[9] || '';
+    const maqauto = cols[10] || '';
+    const cnc = cols[11] || '';
     if(!desc || !name || largo == null || ancho == null || cant == null){
       errors.push(`Renglón ${i+1} ("${line}"): faltan datos obligatorios (Descripción, ITEM, Largo, Ancho, Cantidad).`);
       return;
     }
-    pieces.push({desc, name, largo, ancho, material, cant, veta:true, enchapl, enchapa, maqman, maqauto, cnc});
+    pieces.push({desc, name, largo, ancho, material, cant, veta, enchapl, enchapa, maqman, maqauto, cnc});
   });
   return {pieces, errors};
 }
@@ -3065,6 +4714,50 @@ document.getElementById('derivAgregarBtn').addEventListener('click', () => {
   derivadosData.push({origen, cantidad, destino});
   document.getElementById('derivCantidadInput').value = '';
   renderDerivadosList();
+});
+
+document.getElementById('enchapLadosLoadBtn').addEventListener('click', () => {
+  const noteEl = document.getElementById('enchapLadosNote');
+  const text = document.getElementById('enchapLadosPasteBox').value;
+  const lines = text.split(/\r?\n/).filter(l => l.trim().length);
+  if(!lines.length){ noteEl.style.color = 'var(--err)'; noteEl.textContent = 'Pega al menos un renglón.'; return; }
+
+  const filas = Array.from(rowsEl.children);
+  const errores = [];
+  let aplicados = 0;
+
+  lines.forEach((line, i) => {
+    let cols = line.split('\t');
+    if(cols.length < 3) cols = line.split(',');
+    cols = cols.map(c => c.trim());
+    const nombre = cols[0];
+    const l1 = cols[1], l2 = cols[2];
+    if(!nombre || l1 == null || l2 == null){
+      errores.push(`Renglón ${i+1} ("${line}"): faltan datos (se necesitan 3: nombre, lado 1, lado 2).`);
+      return;
+    }
+    if(!['0','1','2'].includes(l1) || !['0','1','2'].includes(l2)){
+      errores.push(`Renglón ${i+1} ("${line}"): los valores solo pueden ser 0, 1 o 2.`);
+      return;
+    }
+    const row = filas.find(r => r.querySelector('.f-name').value.trim() === nombre);
+    if(!row){
+      errores.push(`Renglón ${i+1}: no encontré ningún ITEM llamado "${nombre}" en la pestaña 00.`);
+      return;
+    }
+    row.querySelector('.f-enchapl').value = l1;
+    row.querySelector('.f-enchapa').value = l2;
+    aplicados++;
+  });
+
+  document.getElementById('enchapLadosPasteBox').value = '';
+  if(errores.length){
+    noteEl.style.color = 'var(--err)';
+    noteEl.textContent = `Se aplicaron ${aplicados} de ${lines.length}. Errores:\n` + errores.join('\n');
+  } else {
+    noteEl.style.color = 'var(--ok)';
+    noteEl.textContent = `Se aplicó el enchapado a ${aplicados} ITEM(s). No olvides guardar el modelo.`;
+  }
 });
 
 // ===== Materiales (insumos del producto/set) =====
@@ -3421,7 +5114,6 @@ function renderEnchapadoList(){
   }
   container.innerHTML = merged.map(item => {
     const {html, note, totalCantos} = buildEnchapadoDiagramHTML(item);
-    const vel = enchapVelData[item.name] || {largo: '', corto: ''};
     return `
       <div class="enchap-card" data-item="${item.name}">
         <div class="enchap-head">
@@ -3430,40 +5122,9 @@ function renderEnchapadoList(){
         <div class="enchap-body">
           ${html}
           <div class="note" style="margin-top:10px;">${note}</div>
-          <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;border-top:1px solid var(--line);padding-top:16px;">
-            <div class="field" style="max-width:200px;">
-              <label>Piezas/min — Lado largo (${item.L}mm)</label>
-              <input type="number" class="enchap-vel-largo" min="0" step="0.1" placeholder="Ej. 2" value="${vel.largo}">
-              <div class="note enchap-hora-largo" style="margin-top:4px;font-size:12px;color:var(--amber);"></div>
-            </div>
-            <div class="field" style="max-width:200px;">
-              <label>Piezas/min — Lado corto (${item.A}mm)</label>
-              <input type="number" class="enchap-vel-corto" min="0" step="0.1" placeholder="Ej. 3" value="${vel.corto}">
-              <div class="note enchap-hora-corto" style="margin-top:4px;font-size:12px;color:var(--amber);"></div>
-            </div>
-          </div>
         </div>
       </div>`;
   }).join('');
-
-  container.querySelectorAll('.enchap-card').forEach(card => {
-    const itemName = card.dataset.item;
-    const largoInp = card.querySelector('.enchap-vel-largo');
-    const cortoInp = card.querySelector('.enchap-vel-corto');
-    const largoHoraEl = card.querySelector('.enchap-hora-largo');
-    const cortoHoraEl = card.querySelector('.enchap-hora-corto');
-
-    function actualizar(){
-      const largo = parseFloat(largoInp.value) || 0;
-      const corto = parseFloat(cortoInp.value) || 0;
-      enchapVelData[itemName] = {largo: largoInp.value, corto: cortoInp.value};
-      largoHoraEl.textContent = largo > 0 ? `= ${(largo*60).toFixed(0)} piezas/hora` : '';
-      cortoHoraEl.textContent = corto > 0 ? `= ${(corto*60).toFixed(0)} piezas/hora` : '';
-    }
-    largoInp.addEventListener('input', actualizar);
-    cortoInp.addEventListener('input', actualizar);
-    actualizar();
-  });
 }
 
 document.getElementById('goToInfoAdicionalBtn').addEventListener('click', () => {
@@ -4181,16 +5842,17 @@ function renderMaquinadoList(){
     container.innerHTML = '<div class="note">No hay ITEMs capturados. Ve a la pestaña 00 y agrega al menos uno.</div>';
     return;
   }
-  const toNum = (v) => {
-    const n = parseInt(String(v||'').trim(), 10);
-    return isNaN(n) || n < 0 ? 0 : n;
-  };
+  // Cuenta cuántas veces aparece cada proceso en la Ruta de Proceso del ITEM
+  // (pestaña 01 · Información adicional) — ahí es donde se define, ya no aquí.
+  function contarEnRuta(itemName, proceso){
+    const ruta = rutaProcesoData[itemName] || [];
+    return ruta.filter(p => p === proceso).length;
+  }
 
   container.innerHTML = items.map(it => {
-    // Si ya se capturó aquí, usa eso; si no, cae al dato viejo (oculto en 00) por compatibilidad.
-    const counts = maquinadoCountsData[it.name] || {manual: toNum(it.maqman), auto: toNum(it.maqauto), cnc: toNum(it.cnc)};
-    maquinadoCountsData[it.name] = counts;
-    const {manual, auto, cnc} = counts;
+    const manual = contarEnRuta(it.name, 'Manual');
+    const auto = contarEnRuta(it.name, 'Automático');
+    const cnc = contarEnRuta(it.name, 'CNC');
     const orient = calcularOrientacion(it.L, it.A);
 
     return `
@@ -4200,12 +5862,7 @@ function renderMaquinadoList(){
         </div>
         <div class="corte-body">
           ${orient.warning ? `<div class="note" style="color:var(--err);margin:0 0 10px;">⚠ ${orient.warning}</div>` : ''}
-          <div class="note" style="margin:0 0 12px;font-size:12px;">Si tiene más de una configuración Automático, cada una puede elegir su propio lado de entrada.</div>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:12px;">
-            <div class="field" style="max-width:110px;"><label>Manual</label><input type="number" class="maq-count-input" data-tipo="manual" min="0" step="1" value="${manual}"></div>
-            <div class="field" style="max-width:110px;"><label>Automático</label><input type="number" class="maq-count-input" data-tipo="auto" min="0" step="1" value="${auto}"></div>
-            <div class="field" style="max-width:110px;"><label>CNC</label><input type="number" class="maq-count-input" data-tipo="cnc" min="0" step="1" value="${cnc}"></div>
-          </div>
+          <div class="note" style="margin:0 0 12px;font-size:12px;">Manual: ${manual} · Automático: ${auto} · CNC: ${cnc} (según la Ruta de Proceso en "01 · Información adicional del modelo"). Si tiene más de una configuración Automático, cada una puede elegir su propio lado de entrada.</div>
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
             <button class="primary maq-auto-btn" type="button" ${auto === 0 ? 'disabled style="opacity:.5;cursor:default;"' : ''}>Automático: ${auto}${auto>0 ? ' — configurar →' : ''}</button>
           </div>
@@ -4213,17 +5870,6 @@ function renderMaquinadoList(){
         </div>
       </div>`;
   }).join('');
-
-  container.querySelectorAll('.corte-card').forEach(card => {
-    const itemName = card.dataset.item;
-    card.querySelectorAll('.maq-count-input').forEach(inp => {
-      inp.addEventListener('change', () => {
-        const val = toNum(inp.value);
-        maquinadoCountsData[itemName][inp.dataset.tipo] = val;
-        renderMaquinadoList(); // re-pinta para actualizar el botón de Automático y sus sub-paneles
-      });
-    });
-  });
 
   const CELDA_NAMES = ['CANTOS 1', 'CARAS 1', 'CARAS 2', 'CARAS 3', 'CARAS 4', 'CANTOS 2'];
 
